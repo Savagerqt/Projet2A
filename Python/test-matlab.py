@@ -7,17 +7,28 @@ import matlab.engine
 import time 
 
 
-# Construction d'une géometrie sous matlab 
-
+#   Définition de P 
 v1 = Vertex(0,-1)
 v2 = Vertex(0,1) 
 v3 = Vertex(1,1.5) 
 v4 = Vertex(2,-1) 
 v5 = Vertex(0.5,-2)
-P = Polygon(v1,v2,v3,v4,v5)
+P = Polygon(v1, v2, v3, v4, v5)
 
 
-Q = P.deepCopy()
+
+
+#   Définition de Q Symétrique
+c1 = Vertex(0, -1) 
+c2 = Vertex(0,1)
+c3 = Vertex(1,1)
+c4 = Vertex(2,0) 
+c5 = Vertex(1,-1)
+Q = Polygon(c1, c2, c3, c4, c5)
+
+
+
+
 eng = matlab.engine.start_matlab() 
 
 # Tracé initial et stockage de la valeur de l'intégrale initiale 
@@ -32,7 +43,7 @@ Q.plotPY('g')
 
 values = []
 # Boucle principale 
-naiveMainloop(Q, 0.1, 3, 25, values, eng)
+OSMainloop(Q, 0.1, 10, 1, eng)
 print(values)
 
 
