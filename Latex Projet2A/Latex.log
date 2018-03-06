@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.10.22)  9 FEB 2018 13:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.10.22)  6 MAR 2018 10:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -761,24 +761,24 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 287.
 
-[8] [9] [10]
+[8] [9]
 (/usr/local/texlive/2017basic/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
-[11] [12] [13]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 546.
- [14]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 546.
+[10] [11] [12]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 540.
+ [13]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 540.
  (./Latex.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 546.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 546.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 540.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 540.
 Package rerunfilecheck Info: File `Latex.out' has not changed.
 (rerunfilecheck)             Checksum: F73A4A85E4D7DED32664C596D4E4D297;178.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 546.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 540.
  ) 
 Here is how much of TeX's memory you used:
- 9654 strings out of 494437
- 134805 string characters out of 6166644
+ 9652 strings out of 494437
+ 134788 string characters out of 6166644
  307770 words of memory out of 5000000
  12577 multiletter control sequences out of 15000+600000
  11830 words of font info for 47 fonts, out of 8000000 for 9000
@@ -802,10 +802,10 @@ basic/texmf-dist/fonts/type1/public/amsfonts/latxfont/line10.pfb></usr/local/te
 xlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/latxfont/linew10.pfb></u
 sr/local/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on Latex.pdf (14 pages, 218223 bytes).
+Output written on Latex.pdf (13 pages, 217551 bytes).
 PDF statistics:
- 504 PDF objects out of 1000 (max. 8388607)
- 465 compressed objects within 5 object streams
- 311 named destinations out of 1000 (max. 500000)
+ 499 PDF objects out of 1000 (max. 8388607)
+ 461 compressed objects within 5 object streams
+ 309 named destinations out of 1000 (max. 500000)
  27 words of extra memory for PDF output out of 10000 (max. 10000000)
 
