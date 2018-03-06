@@ -15,7 +15,9 @@ v4 = Vertex(3,0.5)
 v5 = Vertex(1,-1.5)
 P = Polygon(v1, v2, v3, v4, v5)
 
-
+print(P.degSymetrie(0.1))
+P.plotPY('r')
+plt.show()
 
 #   Définition de Q Symétrique
 c1 = Vertex(0, -1)
@@ -27,6 +29,9 @@ Q = Polygon(c1, c2, c3, c4, c5)
 
 
 
+
+
+'''
 
 eng = matlab.engine.start_matlab()
 
@@ -63,3 +68,8 @@ print("\nTemps de la simulation " + str(end - start))
 # Tracé final
 P.plotPY('b')
 plt.show()
+
+
+
+
+'''
