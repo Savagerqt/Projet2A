@@ -16,6 +16,7 @@
 \usepackage{color}
 
 
+
 \definecolor{gray}{RGB}{100,100,100}
 \definecolor{basiccolor}{RGB}{0, 43, 54}
 \definecolor{keywordscolor1}{RGB}{88, 110, 117}
@@ -50,22 +51,37 @@
 \maketitle
 \newpage
 
-
+\setlength{\parindent}{1cm}
 \part*{Introduction}
-Le but de notre démarche est d'étudier la moyenne de la température dans une pièce et de maximiser la moyenne de la température. On notera $u(x,t)$ la température en $x$ au temps $t$. 
-La température moyenne sur un fermé $\Omega$ est donnée par $ \frac {1}{|\Omega|}\int_{\Omega} u(x,t) dx $ ou $|\Omega|$ représente l'aire du fermé $\Omega$ \\
-\vspace{0,5cm}
-La température dans la pièce $\Omega$ est donnée par l'équation aux dérivées partielles 
-\begin{equation}
-\frac{\partial u}{\partial t}(x,t) = \Delta u(x,t) + f(x,t)
-\end{equation}
-Dans le cadre de cette étude, on considèrera uniquement des espace $\Omega$ de $\mathbb{R}^2$ de forme polygonale, pour modéliser par exemple une pièce ou un bâtiment constitué de murs droits. 
-\vspace{0,5cm}
-
+L'équation de la chaleur est une équation aux dérivées partielles 
+parabolique, pour décrire le phénomène physique de conduction thermique, introduite initialement en 1811 par Jean Baptiste Joseph Fourier. Cette problématique de la diffusion de la chaleur est un enjeu industriel central vos à vis la gestion de l'énergie. A l'heure de la COP 21, elle n'a d'ailleurs jamais semblée autant d'actualité. \\
+Comment maximiser la température d'une chambre en ne jouant que sur la géométrie de cette dernière ? Cette question qui peut surprendre de prime abord - car des dogmes architecturaux nous pousse naïvement à supposer, par définition, que toute chambre respectable se doit d'être rectangulaire - prend alors tout son sens.
+Cette recherche se place indéniablement dans un vaste domaine d'étude, au confluent des mathématiques et de l'informatique: l'optimisation de forme. \\
 
 
 % PARTIE 1 
-\part{Les pièces à trois côtés, le cas triangulaire}
+\part{Mise en place de l'étude}
+Notre étude sera réalisée en deux dimensions, dans le plan $\mathbb{R}^2$. Par ailleurs, une chambre sera modélisée par un polygone. Nous allons principalement nous intéresser aux pentagones (polygones à 5 côtés), cependant d'autres polygones seront également testés pour mener à bien ce travail. \\
+Cette étude n'est rien d'autre qu'un problème d'optimisation. En effet, nous chercherons à maximiser le critère: température moyenne d'une pièce dans \textbf{son régime stationnaire}. \\ Pour fixer les notations, à l'avenir, la température à la position repérée par le vecteur $x$ de la chambre $\Omega$ au temps $t$ sera notée $u(x,t)$. De plus, la température moyenne de la pièce s'exprime facilement par  $ \frac {1}{|\Omega|}\int_{\Omega} u(x,t) dx $ ou $|\Omega|$ représente l'aire de la chambre.\\
+Par ailleurs, nous considérerons que la température dans la pièce $\Omega$ est pilotée par l'équation aux dérivées partielles: 
+\\
+\begin{equation}
+\frac{\partial u}{\partial t}(x,t) = \Delta u(x,t) + f(x,t)
+\end{equation}
+Il s'agit de l'équation de la chaleur usuelle dans laquelle les diverses constantes caractéristiques du phénomène ont été égalisé à 1. Par ailleurs, $f(x,t)$ est un terme de source permettant de préciser le profil thermique de la pièce.
+Une des données clef de ce problème est de bien comprendre que dés lors que nous souhaitons classer des polygones (ou plus généralement des formes géométriques quelconques) il faut nécessairement que nous fixions des caractéristiques. En effet comment comparer la température moyenne de deux pièces si pour un même radiateur elles sont d'aires ou de nombre de cotés différents ? \\
+Voici le cahier des charges retenus: \\
+- le nombre de sommets du polygone est fixé égal à 5 dans l'étude principale, c'est à dire que nous travaillons sur des pentagones; \\
+- l'aire des polygones est fixée égale à $|\Omega|$; \\
+- toutes les chambres seront chauffées grâce à un même radiateur. Pour le modéliser, nous considérerons qu'un mur (c'est à dire un coté du polygone) de longueur fixée $l$ est sujet à un flux thermique entrant $\Phi$e connu et, également fixé;  \\
+- la chambre est supposée isolée: les températures surfaciques des autres murs (cotés du polygone) sont fixées égales à une même constante $T_{0}$; \\
+- Nous considérons un profil thermique identiquement nul : $f(x,t)  = 0$.
+\\
+Le problème est désormais bien posé. Il faut cependant garder à l'esprit que les contraintes fixées ici sont fortes: voyager à aire constant avec la position de deux sommets données est particulièrement contraignant. Une part importante de l'étude est de réfléchir à l'implémentation d'un algorithme pour pouvoir générer des polygones respectant ces contraintes.
+
+
+% PARTIE 2
+\part{Etude préliminaire: le cas des triangles}
 
 %SECTION 1 
 \section*{I - Cadre général de l'étude}
@@ -238,9 +254,7 @@ Le programme nous retourne la courbe suivante : \\
 
 On trouve alors un maximum aux alentours entre $0.70$ et $0.71$ (ce qui ressemble fortement à $\frac{\sqrt{2}}{2}$). Ce n'est pas vraiment une surprise, car on s'attendait à trouver une forme relativement régulière, et dans le cas présent, il s'agit du triangle rectangle équilatéral. \\
 
-% ///////////////////////////////////////////////////////
-%						Partie I
-% ///////////////////////////////////////////////////////
+
 \newpage
 \part{Implémentation d'un premier algorithme sur Python}
 
