@@ -253,6 +253,22 @@ Le programme nous retourne la courbe suivante : \\
 \newpage
 
 On trouve alors un maximum aux alentours entre $0.70$ et $0.71$ (ce qui ressemble fortement à $\frac{\sqrt{2}}{2}$). Ce n'est pas vraiment une surprise, car on s'attendait à trouver une forme relativement régulière, et dans le cas présent, il s'agit du triangle rectangle équilatéral. \\
+\vspace{5cm}
+\begin{center}
+\begin{picture} (0,0) (20,0) 
+\setlength{\unitlength}{2.5cm}
+\thicklines
+\put(0,0) {\line(0,1) {2}}
+\put(0,0) {\line(1,1) {1}}
+\put(0,2) {\line(1,-1) {1}}
+\put(-0.2,1) {$1$}
+\put(0.2,1) {$|\Omega|$}
+\end{picture}
+\end{center}
+\vspace{1cm}
+Procédons à quelques remarque. Tout d'abord, on observe que la figure "optimisée" est symétrique, ce qui semble s'accorder avec les conditions aux limites spatiales qui sont elles symétriques par rapport à l'axe des abscisses. Cela explique pourquoi dans la suite de l'étude, nous accorderons une place importante à la symétrie dans les figures recherchées.\\
+
+
 
 
 \newpage
@@ -290,7 +306,8 @@ On trouve alors un maximum aux alentours entre $0.70$ et $0.71$ (ce qui ressembl
 Figure : Déplacement du sommet $A$ selon l'algorithme
 \end{center}
 \vspace{0.5cm}
-\pa L'idée est ensuite de faire varier les différents points du Polygone selon le même schéma de déplacement. Toutefois, la manière de choisir les points à déplacer et les critères d'arrêt sont encore à déterminer.
+\pa L'idée est ensuite de faire varier les différents points du Polygone selon le même schéma de déplacement. Toutefois, la manière de choisir les points à déplacer et les critères d'arrêt sont encore à déterminer.\\
+
 \newpage
 
 \section*{II - Implémentation d'un algorithme sous Python} 
