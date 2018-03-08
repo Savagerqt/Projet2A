@@ -88,13 +88,13 @@ Le problème est désormais bien posé. Il faut cependant garder à l'esprit que
 On va considérer le problème simple d'une pièce triangulaire dans toute cette partie. On considère aussi une application $T_S$ qui a une valeur $x$ va associer un triangle d'aire $S$ et de côtés de longueur $x$ et $1$. La fonction $u_\Omega$ correspond à la solution de l'équation précédente sur le domaine $\Omega$, qui est dans le cas ici présent un triangle. On va noter $M$ la fonction qui renvoie la moyenne de $u_\Omega$ sur $\Omega$ telle que $M(\Omega) = \frac {1}{|\Omega|}\int_{\Omega} u_\Omega(x,t) dx $. \\
 Désormais, on pose $ F = M\circ T $. Le problème formulé ci-dessus revient donc à chercher le $x$ qui maximise la fonction F, on se ramène ainsi à un problème d'optimisation de $\mathbb{R}$ dans $\mathbb{R}$. \\
 \\
-Pour étudier le problème dans un premier temps, on va considérer un côté fixe de longueur 1 centré sur l'axe des ordonnées. Ensuite on va faire varier le côté adjacent de longueur $x$. En sachant que l'aire du triangle est fixée, on pourra déterminer le triangle correspondant en fonction du seul paramètre $x$.\\
-\vspace{0,8cm}
+Pour étudier le problème dans un premier temps, on va considérer un côté fixe de longueur 1 centré sur l'axe des ordonnées. Ensuite on va faire varier le côté adjacent de longueur $x$. En sachant que l'aire du triangle est fixée, on pourra déterminer le triangle correspondant en fonction du seul paramètre $x$. On note E l'ensemble des sous-ensembles de $\mathbb{R} ^{2}$\\
+\vspace{1.5cm}
 \begin{center}
 \begin{picture} (100,100) (-120,-20) 
 \setlength{\unitlength}{2cm}
 \thicklines
-\put(-4,0.8) {$T_\Omega : \mathbb{R} \longmapsto \mathbb{R}^2$}
+\put(-4,0.8) {$T_\Omega : \mathbb{R} \longmapsto E$ }
 \put(-3.6,0.6){$x \longrightarrow $ Triangle de côté 1 et x, d'aire $|\Omega|$}
 \put(0,0) {\line(0,1) {2}}
 \put(0,0) {\line(1,0) {2}}
@@ -104,11 +104,12 @@ Pour étudier le problème dans un premier temps, on va considérer un côté fi
 \put(0.5,0.7) {$|\Omega|$}
 \end{picture}
 \end{center}
+\vspace{2cm}
+Dans la suite de l'étude, on va considérer le côté fixé de longueur 1 sur l'axe des ordonnées, centré sur l'origine (C'est à dire les deux premiers points du triangle en (0, 0.5) et (0, -0.5)). Le dernier point du triangle peut ainsi être déterminé grâce à la seule connaissance de $x$. Par soucis de simplification, on va ainsi poser la fonction $T$ qui renvoie les coordonnées du dernier point en fonction de $x$. Le triangle pourra ainsi être tracé car on connait les deux autres coordonnées. Ce dernier point est de coordonnées : $(2|\Omega|,\frac{1}{2} - x\sqrt{1-(\frac{2|\Omega|}{x})^2})$. (On peut déterminer ces formules à l'aide de calculs simples sur les relations d'Al-Kashi)\\
 
+Sur Matlab, on a implémenté une fonction qui construit un objet de type "geometry" triangulaire en fonction de l'aire $\Omega$ et de la longueur du côté $x$. Cet objet geometry définit la forme de la zone sur laquelle on va rédoudre l'équation différentielle. 
 
-\newpage 
-
-Sur Matlab, on a implémenté une fonction qui construit une géométrie triangulaire en fonction de l'aire $\Omega$ et de la longueur du côté $x$. On peut donc déterminer le dernier point qui sera de coordonnées : $(2|\Omega|,\frac{1}{2} - x\sqrt{1-(\frac{2|\Omega|}{x})^2})$. (On peut déterminer ces formules à l'aide de calculs simples sur les relations d'Al-Kashi)
+\newpage
 
 \begin{lstlisting}[language=Matlab,frame=single,caption=Construction d'une géométrie Triangulaire]
 function g = triangle(X,area)
