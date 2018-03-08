@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.10.22)  8 MAR 2018 01:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.10.22)  8 MAR 2018 01:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -639,20 +639,20 @@ Package: listings 2015/06/04 1.6 (Carsten Heinz)
 (./Latex.aux)
 \openout1 = `Latex.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
 
 (/usr/local/texlive/2017basic/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -684,7 +684,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box31
-Package hyperref Info: Link coloring OFF on input line 48.
+Package hyperref Info: Link coloring OFF on input line 79.
  (/usr/local/texlive/2017basic/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
@@ -694,20 +694,20 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count128
 )
-LaTeX Info: Redefining \ref on input line 48.
-LaTeX Info: Redefining \pageref on input line 48.
-LaTeX Info: Redefining \nameref on input line 48.
+LaTeX Info: Redefining \ref on input line 79.
+LaTeX Info: Redefining \pageref on input line 79.
+LaTeX Info: Redefining \nameref on input line 79.
  (./Latex.out) (./Latex.out)
 \@outlinefile=\write3
 \openout3 = `Latex.out'.
 
 \c@lstlisting=\count129
-LaTeX Font Info:    Try loading font information for U+msa on input line 52.
+LaTeX Font Info:    Try loading font information for U+msa on input line 83.
 
 (/usr/local/texlive/2017basic/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 52.
+LaTeX Font Info:    Try loading font information for U+msb on input line 83.
 
 (/usr/local/texlive/2017basic/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -718,22 +718,22 @@ LaTeX Warning: No \author given.
 [1
 
 {/usr/local/texlive/2017basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 56--60
+Underfull \hbox (badness 10000) in paragraph at lines 87--91
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--68
+Underfull \hbox (badness 10000) in paragraph at lines 95--99
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 88--93
+Underfull \hbox (badness 10000) in paragraph at lines 119--124
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 108--109
+Underfull \hbox (badness 10000) in paragraph at lines 139--140
 
  []
 
@@ -741,68 +741,139 @@ Underfull \hbox (badness 10000) in paragraph at lines 108--109
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 114.
+nput line 145.
+
+(/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+)
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <8> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 115.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 146.
 
 <TriangleEDP.jpg, id=44, 562.1pt x 421.575pt>
 File: TriangleEDP.jpg Graphic file (type jpg)
  <use TriangleEDP.jpg>
-Package pdftex.def Info: TriangleEDP.jpg used on input line 164.
+Package pdftex.def Info: TriangleEDP.jpg used on input line 195.
 (pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
  [4]
-[5 <./TriangleEDP.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 250--251
+(/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+)
+(/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+) [5 <./TriangleEDP.jpg>] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/ba
+se/utf8.def
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+)
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
 
  []
 
 <Triangle_CourbeX.jpg, id=104, 562.1pt x 421.575pt>
 File: Triangle_CourbeX.jpg Graphic file (type jpg)
  <use Triangle_CourbeX.jpg>
-Package pdftex.def Info: Triangle_CourbeX.jpg used on input line 252.
+Package pdftex.def Info: Triangle_CourbeX.jpg used on input line 283.
 (pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
 
 [6 <./Triangle_CourbeX.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 270--271
+Underfull \hbox (badness 10000) in paragraph at lines 301--302
 
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 310--311
-
+Overfull \hbox (0.54366pt too wide) in paragraph at lines 313--317
+ \OT1/cmr/m/n/10 Nous avons ex-plicit^^Se dans la par-tie 1 les car-act^^Serist
+iques des poly-gones qui nous int^^Seressent.
  []
 
 [8]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 319.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 357.
 
  (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 319.
- [9]
-[10] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/listings/lstlang1.sty
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 357.
+
+Overfull \hbox (12.12292pt too wide) in paragraph at lines 359--360
+[]\OT1/cmr/m/n/10 Pour chaque som-met on teste les deux pe-tits d^^Seplacements
+ sta-bles sym^^Setriques d'amplitude
+ []
+
+[9] <initialPolygon.png, id=163, 462.528pt x 346.896pt>
+File: initialPolygon.png Graphic file (type png)
+
+<use initialPolygon.png>
+Package pdftex.def Info: initialPolygon.png used on input line 379.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ <plotPas.png, id=165, 462.528pt x 346.896pt>
+File: plotPas.png Graphic file (type png)
+
+<use plotPas.png>
+Package pdftex.def Info: plotPas.png used on input line 383.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ <alternatif.png, id=166, 764.8575pt x 356.33125pt>
+File: alternatif.png Graphic file (type png)
+
+<use alternatif.png>
+Package pdftex.def Info: alternatif.png used on input line 387.
+(pdftex.def)             Requested size: 382.42781pt x 178.16518pt.
+ [10 <./initialPolygon.png> <./plotPas.png> <./alternatif.png>] (/usr/local/tex
+live/2017basic/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
-[11] [12] [13]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 572.
- [14]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 572.
+(/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+)
+(/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+) [11]
+Overfull \hbox (42.31616pt too wide) in paragraph at lines 496--497
+\OT1/cmr/m/n/10 som-met i est d^^Seplac^^Se d'une longueur dl. Cette fonc-tion 
+est d^^Seclin^^See en $\OML/cmm/m/it/10 valueIntegralOS\OT1/cmr/m/n/10 (\OML/cm
+m/m/it/10 i; dl; eng\OT1/cmr/m/n/10 )$
+ []
+
+
+Overfull \hbox (8.39957pt too wide) in paragraph at lines 497--498
+[]$\OML/cmm/m/it/10 plotPY\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 color\OT1/cmr/m/n/1
+0 )$ qui trace sur le can-vas le poly-gon (pour faire des repr^^Sesentations gr
+aphiques 
+ []
+
+[12] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+)
+Overfull \hbox (16.30376pt too wide) in paragraph at lines 510--511
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+ 
+ []
+
+
+Overfull \hbox (6.10353pt too wide) in paragraph at lines 558--559
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[13] [14]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 676.
+ [15]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 676.
  (./Latex.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 572.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 572.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 676.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 676.
 Package rerunfilecheck Info: File `Latex.out' has not changed.
-(rerunfilecheck)             Checksum: 9913B1A05B26F95BA088122E4C3C6186;227.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 572.
+(rerunfilecheck)             Checksum: 95A78FE21C57A983FFE81CC6E9F61C15;225.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 676.
  ) 
 Here is how much of TeX's memory you used:
- 9658 strings out of 494437
- 134839 string characters out of 6166644
- 307761 words of memory out of 5000000
- 12580 multiletter control sequences out of 15000+600000
- 12138 words of font info for 48 fonts, out of 8000000 for 9000
+ 9745 strings out of 494437
+ 136593 string characters out of 6166644
+ 315360 words of memory out of 5000000
+ 12621 multiletter control sequences out of 15000+600000
+ 12484 words of font info for 49 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 28i,8n,42p,730b,1974s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 28i,8n,42p,730b,2336s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
 0.pfb></usr/local/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mbx12.pfb></usr/local/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/
@@ -816,16 +887,17 @@ type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2017basic/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2017basic/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017basic/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2017basic/texmf
--dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2017basic/te
-xmf-dist/fonts/type1/public/amsfonts/latxfont/lcirclew.pfb></usr/local/texlive/
-2017basic/texmf-dist/fonts/type1/public/amsfonts/latxfont/line10.pfb></usr/loca
-l/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/latxfont/linew10.pfb
-></usr/local/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/symbols/m
-sbm10.pfb>
-Output written on Latex.pdf (14 pages, 234209 bytes).
+-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2017basic/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2017basi
+c/texmf-dist/fonts/type1/public/amsfonts/latxfont/lcirclew.pfb></usr/local/texl
+ive/2017basic/texmf-dist/fonts/type1/public/amsfonts/latxfont/line10.pfb></usr/
+local/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/latxfont/linew10
+.pfb></usr/local/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/symbo
+ls/msbm10.pfb>
+Output written on Latex.pdf (15 pages, 300926 bytes).
 PDF statistics:
- 511 PDF objects out of 1000 (max. 8388607)
- 471 compressed objects within 5 object streams
- 311 named destinations out of 1000 (max. 500000)
- 35 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 559 PDF objects out of 1000 (max. 8388607)
+ 510 compressed objects within 6 object streams
+ 338 named destinations out of 1000 (max. 500000)
+ 50 words of extra memory for PDF output out of 10000 (max. 10000000)
 

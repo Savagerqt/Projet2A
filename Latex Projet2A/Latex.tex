@@ -39,7 +39,38 @@
   keywordstyle = {[3]\bfseries\color{keywordscolor3}},
   keywordstyle = {[4]\bfseries\color{attributescolor}},
   stringstyle = \color{stringscolor},                     % string literal style
-  backgroundcolor = \color{backgroundcolor}}
+  backgroundcolor = \color{backgroundcolor},
+  inputencoding=utf8,
+  extendedchars=true,
+  literate=%
+        {é}{{\'{e}}}1
+        {è}{{\`{e}}}1
+        {ê}{{\^{e}}}1
+        {ë}{{\¨{e}}}1
+        {É}{{\'{E}}}1
+        {Ê}{{\^{E}}}1
+        {û}{{\^{u}}}1
+        {ù}{{\`{u}}}1
+        {ú}{{\'{u}}}1
+        {â}{{\^{a}}}1
+        {à}{{\`{a}}}1
+        {á}{{\'{a}}}1
+        {ã}{{\~{a}}}1
+        {Á}{{\'{A}}}1
+        {Â}{{\^{A}}}1
+        {Ã}{{\~{A}}}1
+        {ç}{{\c{c}}}1
+        {Ç}{{\c{C}}}1
+        {õ}{{\~{o}}}1
+        {ó}{{\'{o}}}1
+        {ô}{{\^{o}}}1
+        {Õ}{{\~{O}}}1
+        {Ó}{{\'{O}}}1
+        {Ô}{{\^{O}}}1
+        {î}{{\^{i}}}1
+        {Î}{{\^{I}}}1
+        {í}{{\'{i}}}1
+        {Í}{{\~{Í}}}1}
 
 
 \newcommand{\myenv}{(\raisebox{0pt}{\mygraphic{.6em}})}
@@ -273,11 +304,16 @@ Procédons à quelques remarque. Tout d'abord, on observe que la figure "optimis
 
 
 \newpage
-\part{Implémentation d'un premier algorithme sur Python}
 
-\section*{I - Déplacement d'un sommet du polygone avec aire constante}
 
-\pa L'idée général de l'algorithme repose sur le déplacement successif des différents points du polygone et cela en conservant l'aire totale du polygone. Pour cela on va déplacer un sommet sur la droite passant par les deux sommets voisins du sommet. Sur le schéma, nous avons représenté cette droite en rouge. L'idée derrière ce déplacement est d'exploiter la formule sur l'aire d'une triangle : $\mathcal{A} = \frac{\mathcal{B}.h}{2}$ , ou $\mathcal{B}$ est la base du triangle et $h$ est la hauteur du triangle. En déplacant les points de cette façon, nous pouvons conserver la hauteur et la base du triangle considéré par l'algorithme et par conséquent l'aire du triangle. 
+\part{Cas général du pentagone: premier algorithme}
+
+\section*{I - Stabilité de la famille par petits déplacements}
+
+\pa Nous avons explicité dans la partie 1 les caractéristiques des polygones qui nous intéressent. Par ailleurs, nous avons relevé à quel point ces caractéristiques étaient contraignantes. Nous cherchons une méthode à partir d'un polygone correspondant au cahier des charges de générer, par petits déplacements des sommets, d'autres polygones le respectant encore. Cette méthode pourrait ensuite être utilisée dans un algorithme itératif pour trouver des (nous n'avons pas encore dégagé de résultat sur l'existence d'un polygone optimal unique) chambres optimales. \\ 
+\pa L'idée générale de la méthode repose sur le déplacement des sommets du polygone en conservant l'aire du polygone. Pour cela, nous allons déplacer un sommet sur la droite parallèle à celle passant par les deux sommets voisins. Sur le schéma, nous avons représenté cette droite en rouge. L'idée derrière ce déplacement est d'exploiter la formule sur l'aire d'une triangle : $\mathcal{A} = \frac{\mathcal{B}.h}{2}$ , ou $\mathcal{B}$ est la base du triangle et $h$ est la hauteur du triangle. En suivant cette méthode, nous conservons la hauteur et la base du triangle considéré par l'algorithme et par conséquent son aire. \\
+\pa En excluant la possibilité de déplacer les deux sommets correspondant au mur relatif au flux entrant, nous avons alors explicité des petits déplacements stables pour la famille de polygones considérée. \\
+Dans la suite, nous dirons en parlant des sommets du mur modélisant le radiateur qu'ils sont \textbf{fixes}, et que les autres sont \textbf{mobiles}.
 
 \vspace{3.5cm}
 \begin{center}
@@ -307,27 +343,50 @@ Procédons à quelques remarque. Tout d'abord, on observe que la figure "optimis
 Figure : Déplacement du sommet $A$ selon l'algorithme
 \end{center}
 \vspace{0.5cm}
-\pa L'idée est ensuite de faire varier les différents points du Polygone selon le même schéma de déplacement. Toutefois, la manière de choisir les points à déplacer et les critères d'arrêt sont encore à déterminer.\\
 
 \newpage
 
 \section*{II - Implémentation d'un algorithme sous Python} 
-\pa L'idée générale est de créer un objet sous python qui représente un polygone sous Python. Nous avons opté pour la création d'une classe appelée Polygon, qui est constitué d'une liste de points indépendants, qui peuvent être bougés au gré de nos envies. 
-\par Présentons succintement les idées générales de l'algorithme que nous avons choisi : \vspace{0.3cm}
+\pa L'idée générale est de créer un objet sous python qui représente un polygone. Nous avons opté pour la création d'une classe appelée Polygon, qui est constituée d'une liste de points indépendants, qui peuvent être bougés au gré de nos envies. 
+\\
+Tout d'abord, nous disposons, via MATLAB, d'un outil puissant et efficace de résolution des équations différentielles: la PDE toolbox. Cependant, un inconvénient de cet outil est le temps d'exécution qui est élevé. Appelons \textit{calcul\_statio} le programme qui renvoie la valeur de la température moyenne de la chambre en régime stationnaire.
+
+\par Présentons schématiquement les idées générales de l'algorithme \textbf{itératif} que nous avons choisi : \vspace{0.3cm}
 
 \begin{itemize}
-  \item On parcourt les sommets du polygone, puis on teste deux petits déplacement de chacun des sommets
-  \item On garde en mémoire le déplacement et la valeur de l'intégrale associé à chacun des petits déplacements
-  \item Une fois que tous les sommets ont été parcourus, on choisit le meilleur déplacement par rapport à tous les sommets
-  \item On applique le déplacement au polygone, puis on recommence 
+  \item L'algorithme prend en entrée les coordonnées du polygone initial dans le bon ordre ainsi que le pas $p$ de déplacement;
+  \item On entre dans la boucle: tous les sommets mobiles du polygones sont parcourus;
+  \item Pour chaque sommet on teste les deux petits déplacements stables symétriques d'amplitude p: pour chaque déplacement on applique \textit{calcul\_statio}
+  \item On garde en mémoire le déplacement (éventuellement nul si pas d'amélioration) et la valeur de la température moyenne associée. 
+  \item on ressort de la boucle avec le meilleur déplacement et le sommet associé
+  \item On applique le déplacement au polygone, puis on recommence (il s'agit bien d'un procédé itératif)
 \end{itemize}
 \vspace{0.3cm}
-Le calcul de l'intégrale sur le polygone se fait à l'aide de Matlab, qui permet de résoudre directement l'équation differentielle sur le polygone. On a juste à importer la géométrie sous Matlab, puis on utilise la PDE toolbox pour résoudre l'équation différentielle partielle sur nôtre figure. Le seul défaut de cette méthode, est son coût en remaillage, qui prend pas mal de temps. Le temps de calcul de cet algorithme est ainsi assez élevé. 
-\par 
 
+
+\par 
+\section*{III - Remarques et améliorations}
+Premièrement, nous pouvons remarquer que cet algorithme met en jeu une connexion entre python ou nous gérons les données relatives aux polygones et MATLAB pour faire les calculs. Cette connexion assez technique sur le plan purement informatique est couteuse en temps. Nous envisageons donc pour la suite de notre projet d'éventuellement trouver un module sur python pour y mener l'ensemble du processus. \\
+ Par ailleurs, la plus grande partie du temps d'exécution de l'algorithme a pour origine le maillage de la figure. Cette étape est essentielle pour la résolution d'une équation aux dérivées partielles. Pour optimiser notre algorithme, dans la mesure ou chaque étape n'engendre qu'une petite modification du polygone, nous pourrions éventuellement nous tourner vers des méthodes de remaillage efficaces. \\
+Lorsque nous faisons des petits déplacements des sommets, il faut faire attention à ne pas casser "la convexité" de la figure, ce qui pourrait passer aussi par un cas singulier où notre polygone aurait un coté en moins. Nous allons ajouter un test à notre algorithme pour nous assurer qu'il n'y est pas de problème à cause de ces cas limites. \\
+Ensuite, pour améliorer la complexité de l'algorithme, nous envisageons d'adapter la méthode du gradient et de chercher à identifier des directions privilégies.\\
+Ensuite, une grande limitation de cet algorithme est que la valeur du pas influe grandement sur le résultat final. Contrairement à ce que nous pourrions penser naivement un pas petit n'améliore pas nécessairement la qualité du polygone finale (on peut rester bloquer sur un maximum local).
 
 \newpage
-\section*{III - Résultats de cet algorithme }
+\section*{IV - Résultats de cet algorithme }
+
+\begin{center}
+\includegraphics[scale=0.5]{initialPolygon.png}
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.5]{plotPas.png}
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.5]{alternatif.png}
+\end{center}
+
 
 \newpage
 
@@ -343,8 +402,14 @@ Le calcul de l'intégrale sur le polygone se fait à l'aide de Matlab, qui perme
 
 \section*{Annexes}
 
-
+%========================================
 % Classe VECTOR
+%========================================
+
+\section*{Classe Vector}
+
+Cette première classe permet juste de représenter des vecteurs dynamiques sous Python.
+
 
 \begin{lstlisting}[language=Python,frame=single,caption=Création de la classe Vecteur]
 class Vector : 
@@ -365,7 +430,14 @@ class Vector :
         self.y = self.y / norm 
 \end{lstlisting}
 
+
+%========================================
 % Classe VERTEX
+%========================================
+
+\section*{Classe Vertex}
+
+La classe Vertex permet de représenter des sommets mobiles sous Python. Chaque polygone est ainsi constitué de plusieurs objets de classe Vertex (de plusieurs sommets). La classe contient notamment une fonction $move$ permettant de déplacer un point selon une droite.
 
 \begin{lstlisting}[language=Python,frame=single,caption=Création d'une classe Vertex]
 class Vertex : 
@@ -404,169 +476,201 @@ class Vertex :
         self.update(dx, dy) 
 \end{lstlisting}
 
-
+%========================================
 % Classe POLYGON
+%========================================
+
+\section*{Classe Polygon}
+
+La classe Polygon est l'élément central de notre optimisation de forme. En effet nous cherchons à optimiser des objets de forme polygonale. \\
+Chaque objet Polygon est constitué d'objets de classe Vertex qui contiennent les coordonnées des sommets. Ces Vertex sont contenus dans un attribut de type liste, et ils sont ordonnés dans le sens horaire. On commence conventionnellement par mettre les sommets liant le côté traversé par le flux. C'est très important, car le calcul de la température moyenne sous Matlab dépend de l'ordre des côtés, car il faut choisir des conditions aux limites différentes sur chacun des côtés.\\
+Les méthodes de cette classe Polygon sont les suivantes : 
+\begin{enumerate}
+\item $init$ qui initialise la classe avec une liste \textbf{ordonnée} de sommets de type Vertex
+\item $deepCopy()$ qui permet de copier un objet
+\item $getx(i)$ et $gety(i)$ qui retournent les coordonnées $x$ et $y$ du sommet numéroté i 
+\item $directorVertice(i)$ qui retourne le coefficient directeur de la droite passant par le sommet i, et parallèle à ses deux voisins les plus proches (voir la droite rouge sur le schéma du déplacement)
+\item $directorSide(i)$ qui retourne le coefficient directeur de la droite passant par le côté numéroté i 
+\item $buildGeometry()$ qui construit une liste représentant le polygone en Matlab. Cette liste est exportée sous Matlab pour être traitée. 
+\item $move(i, dl)$ qui bouge le sommet numéroté i d'une distance dl \textbf(Attention : dl peut être négatif)
+\item $valueIntegral(i, dl, eng)$ qui calcule la température moyenne dans le polygone lorsque le sommet i est déplacé d'une longueur dl. Cette fonction est déclinée en $valueIntegralOS(i, dl, eng)$ (OS:odd sides and symetrical) qui prend en compte la symétrie dans le mouvement
+\item $plotPY(color)$ qui trace sur le canvas le polygon (pour faire des représentations graphiques
+\item $area()$ qui calcule l'aire du polygone grâce à un module spécifique
+\item $degSymetrie()$ qui calcule le "degré de symétrie" du polygone grâce à un module encore une fois 
+\
+\end{enumerate}
+\newpage
+
 
 \begin{lstlisting}[language=Python,frame=single,caption=Création de la classe Polygon]
-class Polygon : 
+
+class Polygon :
+
     """
-        La classe Polygon contient des Vertex (Sommets). L'ensemble de ces 
-        sommets forme un polygon 
-        
-        Les attributs de cette classe sont : 
-           _N : le nombre de cotes 
-           _vertices : la liste contenant les sommets
+        La classe Polygon contient des Vertex (Sommets). L'ensemble de ces sommets
+        forme un polygon
+
+        Les attributs de cette classe sont :
+           N : le nombre de côtés
+           vertices : la liste contenant les sommets
+
     """
-    
-    def __init__(self, *args) : 
-        # Nombre de cotes dans le polygone
-        self.N = len(args)                                   
-        
+
+    def __init__(self, *args) :
+        # Nombre de côtés dans le polygone
+        self.N = len(args)
+
         # Liste contenant les sommets (vertex)
-        self.vertices = []                                    
-        for vertex in args : 
-            self.vertices.append(vertex)         
-            
-            
+        self.vertices = []
+        for vertex in args :
+            self.vertices.append(vertex)
+
+    def deepCopy(self):
+        copy = Polygon()
+        copy.N = self.N
+        for vertex in self.vertices :
+            copy.vertices.append(vertex.deepCopy())
+        return copy
+
+
     # Print
-    def __str__(self) : 
-        res = "(" 
-        for vertex in self.vertices : 
+    def __str__(self) :
+        res = "("
+        for vertex in self.vertices :
             res = res + vertex.__str__() + ","
         return res[:-1]+')'
-    
-    #----------------------------------------------------------------------  
-    # Retourne les coordonnees x et y d'un sommet 
+
+
+    #----------------------------------------------------------------
+    # Retourne les coordonnées x et y d'un sommet
     #
-    # Retourne la coordonnee x du sommet i 
-    def getx(self, i) : 
-        return self.vertices[i % self.N].x 
-    # Retourne la coordonnee y du sommet i 
-    def gety(self, i) : 
-        return self.vertices[i % self.N].y 
-    
-    
-    #---------------------------------------------------------------------
-    # La fonction findCoef renvoie le coefficient directeur de la droite 
-    # passant par les sommets i-1 et i+1 
-    
-    def directorVertice(self, i) : 
+    # Retourne la coordonnée x du sommet i
+    def getx(self, i) :
+        return self.vertices[i % self.N].x
+
+    # Retourne la coordonnée y du sommet i
+    def gety(self, i) :
+        return self.vertices[i % self.N].y
+
+
+
+    #-----------------------------------------------------------------
+    # La fonction findCoef renvoie le coefficient directeur de la droite passant
+    # par les sommets i-1 et i+1
+
+    def directorVertice(self, i) :
         dx = self.getx(i + 1) - self.getx(i - 1)
-        dy = self.gety(i + 1) - self.gety(i - 1) 
+        dy = self.gety(i + 1) - self.gety(i - 1)
         res = Vector(dx, dy)
         res.normalize()
-        return res 
-        
-    
-    
-    #----------------------------------------------------------------------   
-    # calcule le vecteur directeur de la droite passant par le cote i 
-    def directorSide(self, i) : 
+        return res
+
+
+
+    #-----------------------------------------------------------------
+    # calcule le vecteur directeur de la droite passant par le côté i
+    def directorSide(self, i) :
         dy = self.gety(i + 1) - self.gety(i)
         dx = self.getx(i + 1) - self.getx(i)
         res = Vector(dx, dy)
-        res.normalize() 
-        return res 
-          
-    
+        res.normalize()
+        return res
 
 
+    #-----------------------------------------------------------------
+    # Cette méthode construit une géométrie prête à l'exportation sous matlab
 
-    #---------------------------------------------------------------------    
-    # Cette methode construit une geometrie prete a l'exportation sous 
-    # matlab
-    
-    def buildGeometry(self) : 
-        # On initialise une liste avec l'argument 2, qui est le code  
-        # correspondant a une forme polygonale sous matlab, et self.N est le 
-        # nombre de cotes. Cette fonction renvoie une matrice prete a etre  
-        # employee dans la fonction Matlab decsg(mat)
-        
-        mat = [[2], [self.N]] 
-        for vertex in self.vertices : 
-            mat.append([vertex.x]) 
-        for vertex in self.vertices : 
-            mat.append([vertex.y]) 
+    def buildGeometry(self) :
+
+        #    On initialise une liste avec l'argument 2, qui est le 
+        #    code correspondant a une forme polygonale sous 
+        #    matlab, et self._N est le nombre de côtés
+ 		#    Cette fonction renvoie une matrice prête a être 
+ 		#    employée dans la fonction Matlab decsg(mat)
+
+        mat = [[2], [self.N]]
+        for vertex in self.vertices :
+            mat.append([vertex.x])
+        for vertex in self.vertices :
+            mat.append([vertex.y])
         return mat
-        
-    #---------------------------------------------------------------------    
-    # Deplacement d'un point du polygone selon l'algorithme 
-    # i correspond au numero du sommet et dl a la longueur du 
-    # deplacement 
-    
-    def move(self, i, dl) : 
-        vector = self.directorVertice(i) 
-        self.vertices[i % self.N].move(vector, dl) 
-    
-        
-    #----------------------------------------------------------------------   
-    # Calcul de la valeur de l'integrale pour un deplacement du sommet i  
-    # d'une longueur dl 
-    # La methode ne modifie ainsi pas le polygone lorsque elle est executee 
-    
-    def valueIntegral(self, i, dl, eng) : 
-        self.move(i, dl) 
+
+    #-----------------------------------------------------------------
+    #
+    #    Déplacement d'un point du polygone selon l'algorithme
+    #    i correspond au numéro du sommet et dl à la longueur du déplacement
+
+    def move(self, i, dl) :
+        vector = self.directorVertice(i)
+        self.vertices[i % self.N].move(vector, dl)
+
+
+    #------------------------------------------------------------------
+    #
+    #    Calcul de la valeur de l'intégrale pour un déplacement
+    #    du sommet i d'une longueur dl. La méthode ne modifie ainsi
+    #    pas le polygone lorsque elle est executée
+
+    def valueIntegral(self, i, dl, eng) :
+        self.move(i, dl)
         mat = matlab.double(self.buildGeometry())
-        value = eng.computeIntegral(mat) 
-        self.move(i, -dl) 
-        return value 
-        
-    
-    
-    #----------------------------------------------------------------------   
-    # Fonction de tracage 
-    
-    def plotPY(self) : 
-        
-        for k in range(self.N) : 
+        value = eng.computeIntegral(mat)
+        self.move(i, -dl)
+        return value
+
+    #-------------------------------------------------------------------
+    #
+    #   La fontion calcul calcul aussi l'intégrale, mais pour un
+    #   un déplacement symétrique du polygone symétrique à côtés
+    #   impairs (On exploite donc la symétrie)
+
+    def valueIntegralOS(self, i, dl, eng) :
+        self.move(i, dl)
+        self.move(self.N - i, -dl)
+        mat = matlab.double(self.buildGeometry())
+        value = eng.computeIntegral(mat)
+        self.move(i, -dl)
+        self.move(self.N - i + 1, dl)
+        return value
+
+
+    #--------------------------------------------------------------------
+    # Fonction de traçage
+
+    def plotPY(self,color) :
+
+        for k in range(self.N) :
             plt.plot([self.vertices[ k % self.N].x,
-                     self.vertices[(k + 1) % self.N].x],
+                      self.vertices[(k + 1) % self.N].x],
                      [self.vertices[k % self.N].y,
-                     self.vertices[(k + 1) % self.N].y],
-                     '-r'
+                      self.vertices[(k + 1) % self.N].y],
+                     color
                      )
-            
-        plt.show()
-\end{lstlisting}
 
+        #plt.show()
+
+
+    #---------------------------------------------------------------------
+    # Retourne l'air du polygone
+
+    def area(self) :
+
+        poly = [[self.getx(i), self.gety(i)] for i in range(self.N)]
+        return aire_poly(poly)
+
+    #---------------------------------------------------------------------
+    # Retourne l'air du polygone
+
+    def degSymetrie(self, step) :
+
+        poly = [[self.getx(i), self.gety(i)] for i in range(self.N)]
+        return deg_sym(poly, step)
+
+
+\end{lstlisting}
+%========================================
 % MEILLEUR DEPLACEMENT
+%========================================
 
-\begin{lstlisting}[language=Python,frame=single,caption=Trouver le meilleur déplacement]
-# On cherche la position du sommet i qui maximise
-# la fonctionnelle de forme 
-
-def bestValue(polygon, i, dl, eng) :        
-    # On initialise matlab, puis calculons la valeur de l'integrale initiale 
-        
-    L = np.array([polygon.valueIntegral(i, -dl, eng),             		
-    		  # Valeur de l'integrale pour le deplacement a gauche 
-                  polygon.valueIntegral(i, 0, eng),               		
-                  # Valeur de l'integrale sans deplacement 
-                  polygon.valueIntegral(i, dl, eng)])             		
-                  # Valeur de l'integrale pour le deplacement a droite 
-
-    index = np.argmax(L)                                          		
-    # Retourne l'index du maximum de cette liste
-    return [L[index], (index - 1) * dl]               
-    
-\end{lstlisting}
-
-
-\begin{lstlisting}[language=Python,frame=single,caption=Boucle principale de l'algorithme]
-def oneIteration(polygon, dl, eng) : 
-    
-    # On cherche le petit deplacement qui maximise notre fonctionnelle 
-    # de forme lors d'une iteration de l'algorithme 
-    # On examine chacun des sommets independamment
-    max = [0,0] 
-    rank = 0 
-    for i in range(2, polygon.N) : 
-        val = bestValue(polygon, i, dl, eng)
-        print("val ="+str(val))
-        if val[0] > max[0] :
-            max = val
-            rank = i 
-    polygon.move(rank, max[1])   
-\end{lstlisting}
 
 \end{document}
