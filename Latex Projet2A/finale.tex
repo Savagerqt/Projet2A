@@ -78,7 +78,7 @@
 
 \begin{document}
 
-\title{Projet 2A : La chambre la moins froide}
+\title{Projet 2A : La chambre la moins froide \\ Rapport de Mi-Parcours}
 \author{Tanguy VIVIER, \\
 Rémi MOUZAYEK}
 \maketitle
@@ -101,27 +101,33 @@ Par ailleurs, nous considérerons que la température dans la pièce $\Omega$ es
 \begin{equation}
 \frac{\partial u}{\partial t}(x,t) = \Delta u(x,t) + f(x,t)
 \end{equation}
-Il s'agit de l'équation de la chaleur usuelle dans laquelle les diverses constantes caractéristiques du phénomène ont été égalisé à 1. Par ailleurs, $f(x,t)$ est un terme de source permettant de préciser le profil thermique de la pièce.
+Il s'agit de l'équation de la chaleur usuelle dans laquelle les diverses constantes caractéristiques du phénomène ont été égalisées à 1. Par ailleurs, $f(x,t)$ est un terme de source permettant de préciser le profil thermique de la pièce.
 Une des données clef de ce problème est de bien comprendre que dés lors que nous souhaitons classer des polygones (ou plus généralement des formes géométriques quelconques) il faut nécessairement que nous fixions des caractéristiques. En effet comment comparer la température moyenne de deux pièces si pour un même radiateur elles sont d'aires ou de nombre de cotés différents ? \\
-Voici le cahier des charges retenus: \\
+Voici le cahier des charges retenu: \\
 - le nombre de sommets du polygone est fixé égal à 5 dans l'étude principale, c'est à dire que nous travaillons sur des pentagones; \\
 - l'aire des polygones est fixée égale à $|\Omega|$; \\
-- toutes les chambres seront chauffées grâce à un même radiateur. Pour le modéliser, nous considérerons qu'un mur (c'est à dire un coté du polygone) de longueur fixée $l$ est sujet à un flux thermique entrant $\Phi$e connu et, également fixé;  \\
+- toutes les chambres seront chauffées grâce à un même radiateur. Pour le modéliser, nous considérerons qu'un mur (c'est à dire un côté du polygone) de longueur fixée $l$ est sujet à un flux thermique entrant $\Phi$ connu et, également fixé;  \\
 - la chambre est supposée isolée: les températures surfaciques des autres murs (cotés du polygone) sont fixées égales à une même constante $T_{0}$; \\
 - Nous considérons un profil thermique identiquement nul : $f(x,t)  = 0$.
 \\
-Le problème est désormais bien posé. Il faut cependant garder à l'esprit que les contraintes fixées ici sont fortes: voyager à aire constant avec la position de deux sommets données est particulièrement contraignant. Une part importante de l'étude est de réfléchir à l'implémentation d'un algorithme pour pouvoir générer des polygones respectant ces contraintes.
+Le problème est désormais bien posé. Il faut cependant garder à l'esprit que les contraintes fixées ici sont fortes: voyager à aire constante avec la position de deux sommets donnés est particulièrement contraignant. Une part importante de l'étude est de réfléchir à l'implémentation d'un algorithme pour pouvoir générer des polygones respectant ces contraintes.
 
+
+%% CHECK ORTHOGRAPHE 1 
+
+%=========================================
+%									     PARTIE II
+%=========================================
 
 % PARTIE 2
 \part{Etude préliminaire: le cas des triangles}
 
 %SECTION 1 
-\section*{I - Cadre général de l'étude}
-On va considérer le problème simple d'une pièce triangulaire dans toute cette partie. On considère aussi une application $T_S$ qui a une valeur $x$ va associer un triangle d'aire $S$ et de côtés de longueur $x$ et $1$. La fonction $u_\Omega$ correspond à la solution de l'équation précédente sur le domaine $\Omega$, qui est dans le cas ici présent un triangle. On va noter $M$ la fonction qui renvoie la moyenne de $u_\Omega$ sur $\Omega$ telle que $M(\Omega) = \frac {1}{|\Omega|}\int_{\Omega} u_\Omega(x,t) dx $. \\
-Désormais, on pose $ F = M\circ T $. Le problème formulé ci-dessus revient donc à chercher le $x$ qui maximise la fonction F, on se ramène ainsi à un problème d'optimisation de $\mathbb{R}$ dans $\mathbb{R}$. \\
+\section*{I - Simplification du problème}
+Nous allons considérer le problème simple d'une chambre triangulaire dans toute cette partie. Nous considérons ainsi une application $T_S$ qui a une valeur $x$ associe un triangle d'aire $S$ et de côtés de longueur $x$ et $1$. La fonction $u_\Omega$ correspond à la solution de l'équation précédente sur le domaine $\Omega$, qui est dans le cas ici présent un triangle. On va noter $M$ la fonction qui renvoie la moyenne de $u_\Omega$ sur $\Omega$ telle que $M(\Omega) = \frac {1}{|\Omega|}\int_{\Omega} u_\Omega(x,t) dx $. \\
+Désormais, nous posons $ F = M\circ T_S $. Le problème formulé ci-dessus revient donc à chercher le $x$ qui maximise la fonction F, on se ramène ainsi à un problème d'optimisation de $\mathbb{R}$ dans $\mathbb{R}$. \\
 \\
-Pour étudier le problème dans un premier temps, on va considérer un côté fixe de longueur 1 centré sur l'axe des ordonnées. Ensuite on va faire varier le côté adjacent de longueur $x$. En sachant que l'aire du triangle est fixée, on pourra déterminer le triangle correspondant en fonction du seul paramètre $x$. On note E l'ensemble des sous-ensembles de $\mathbb{R} ^{2}$\\
+Pour étudier le problème dans un premier temps, on va considérer un côté fixe de longueur 1 centré sur l'axe des ordonnées. Ensuite on va faire varier le côté adjacent de longueur $x$. En sachant que l'aire du triangle est fixée, on pourra déterminer le triangle correspondant en fonction du seul paramètre $x$. On note E l'ensemble des triangles du plan.\\
 \vspace{1.5cm}
 \begin{center}
 \begin{picture} (100,100) (-120,-20) 
@@ -138,9 +144,9 @@ Pour étudier le problème dans un premier temps, on va considérer un côté fi
 \end{picture}
 \end{center}
 \vspace{2cm}
-Dans la suite de l'étude, on va considérer le côté fixé de longueur 1 sur l'axe des ordonnées, centré sur l'origine (C'est à dire les deux premiers points du triangle en (0, 0.5) et (0, -0.5)). Le dernier point du triangle peut ainsi être déterminé grâce à la seule connaissance de $x$. Par soucis de simplification, on va ainsi poser la fonction $T$ qui renvoie les coordonnées du dernier point en fonction de $x$. Le triangle pourra ainsi être tracé car on connait les deux autres coordonnées. Ce dernier point est de coordonnées : $(2|\Omega|,\frac{1}{2} - x\sqrt{1-(\frac{2|\Omega|}{x})^2})$. (On peut déterminer ces formules à l'aide de calculs simples sur les relations d'Al-Kashi)\\
+Dans la suite de l'étude, nous allons considérer le côté fixe de longueur 1 sur l'axe des ordonnées, centré sur l'origine (C'est à dire les deux premiers points du triangle en (0, 0.5) et (0, -0.5)). Le dernier point du triangle peut ainsi être déterminé grâce à la seule connaissance de $x$. Par soucis de simplification, nous allons poser la fonction $T$ qui renvoie les coordonnées du dernier point en fonction de $x$. Le triangle pourra ainsi être tracé car on connait les deux autres coordonnées. Ce dernier point est de coordonnées : $(2|\Omega|,\frac{1}{2} - x\sqrt{1-(\frac{2|\Omega|}{x})^2})$. (On peut déterminer ces formules à l'aide de calculs simples sur les relations d'Al-Kashi)\\
 
-Sur Matlab, on a implémenté une fonction qui construit un objet de type "geometry" triangulaire en fonction de l'aire $\Omega$ et de la longueur du côté $x$. Cet objet geometry définit la forme de la zone sur laquelle on va rédoudre l'équation différentielle. 
+Sur MATLAB, nous avons implémenté une fonction qui construit un objet de type "geometry" triangulaire en fonction de l'aire $\Omega$ et de la longueur du côté $x$. Cet objet geometry définit la forme de la zone sur laquelle on va rédoudre l'équation différentielle. 
 
 \newpage
 
@@ -161,8 +167,8 @@ end
 \end{lstlisting}
 
 %SECTION 2
-\section*{II - Première étude : Conditions simples}
-On va considérer ici des conditions relativement simples. Premièrement, on se place en régime stationnaire, c'est à dire que le terme $\frac{\partial u}{\partial t}$ est nul. De plus, on fixe une fonction de chauffage nulle. Enfin, les conditions aux limites sont fixées telles que le côté de longueur fixée $1$ soit traversé par un flux positif (modélisant un chauffage), et les deux autre côtés sont fixés à une température extérieure $T_0$ (dans le cas présent fixé à 10).
+\section*{II - Le triangle optimale est isocèle}
+Nous allons considérer ici des conditions relativement simples. Premièrement, nous nous plaçons en régime stationnaire, c'est à dire que le terme $\frac{\partial u}{\partial t}$ est nul. De plus, nous considèrerons ici encore que le terme de source de l'équation différentielle de la chaleur est nul. Enfin, les conditions aux limites sont fixées telles que le côté de longueur fixée $1$ soit traversé par un flux positif (modélisant un chauffage), et les deux autre côtés sont fixés à une température extérieure $T_0$ (dans le cas présent fixé à 10). Il s'agit donc de conditions similaires avec l'étude générale.
 \vspace{3cm}
 \begin{center}
 \begin{picture} (100,100) (-10,-10) 
@@ -182,7 +188,7 @@ On va considérer ici des conditions relativement simples. Premièrement, on se 
 \put(1.7,1) {Température extérieure fixée $T_0 = 10$}
 \end{picture}
 \end{center}
-En clair les conditions aux limites sont de la forme : 
+Ainsi, les conditions aux limites sont de la forme : 
 \begin{equation}
 \left\{
 	    \begin{array}{ll}
@@ -192,11 +198,11 @@ En clair les conditions aux limites sont de la forme :
 	    \end{array}
 \right.		
 \end{equation}
-On peut résoudre l'EDP sur l'exemple ci-dessus avec Matlab assez facilement. On prend dans cette résolution la valeur x =$\sqrt{2}$ et $|\Omega| = 1/2$ pour que cela corresponde au dessin ci-dessus. 
+nous pouvons résoudre l'EDP sur l'exemple ci-dessus avec MATLAB assez facilement. On prend dans cette résolution la valeur x =$\sqrt{2}$ et $|\Omega| = 1/2$ pour que cela corresponde au dessin ci-dessus. 
 \begin{center}
 \includegraphics[scale=0.5]{TriangleEDP.jpg}
 \end{center}
-Voici le script matlab correspondant (Les fonctions seront explicitées ultérieurement) :
+Voici le script MATLAB correspondant (Les fonctions seront explicitées ultérieurement) :
 \vspace{0.5cm}
 
 
@@ -238,7 +244,7 @@ result.e = e ;  % Reference de chacun des points
 end
 \end{lstlisting}
 \vspace{0.5cm}
-Une fois l'équation résolue, il faut maintenant s'interesser à calculer l'intégrale de cette fonction sur le triangle. Pour réaliser cela, nous avons programmé la fonction suivante, qui prend en paramètre la fonction uTriangle ci-dessus, et calcule l'intégrale approchée à l'aide des données fournies par l'algorithme précédent.
+Une fois l'équation résolue, il faut maintenant s'intéresser à calculer l'intégrale de cette fonction sur le triangle. Pour réaliser cela, nous avons programmé la fonction suivante, qui prend en paramètre la fonction Triangle ci-dessus, et calcule l'intégrale approchée à l'aide des données fournies par l'algorithme précédent.
 
 \begin{lstlisting}[language=Matlab,frame=single,caption=Calcul de l'integrale]
 function I = Integrale(u)
@@ -265,7 +271,7 @@ end
     I = I/area ; 
 end
 \end{lstlisting} 
-On peut maintenant mettre en place l'algorithme pour determiner la solution de notre problème. On essaie donc différentes valeurs de $x$ pour une aire fixée à 0.25.
+On peut maintenant mettre en place l'algorithme pour déterminer la solution de notre problème. On essaie donc différentes valeurs de $x$ pour une aire fixée à 0.25.
 % Script pour trouver le maximum 
 % LISTING 3
 \begin{lstlisting}[language=Matlab,frame=single,caption=Script Principal]
@@ -286,7 +292,7 @@ Le programme nous retourne la courbe suivante : \\
 \end{center}
 \newpage
 
-On trouve alors un maximum aux alentours entre $0.70$ et $0.71$ (ce qui ressemble fortement à $\frac{\sqrt{2}}{2}$). Ce n'est pas vraiment une surprise, car on s'attendait à trouver une forme relativement régulière, et dans le cas présent, il s'agit du triangle rectangle équilatéral. \\
+On trouve alors un maximum aux alentours entre $0.70$ et $0.71$ (ce qui ressemble fortement à $\frac{\sqrt{2}}{2}$). Ce n'est pas vraiment une surprise, car on s'attendait à trouver une forme relativement régulière, et dans le cas présent, il s'agit du triangle rectangle isocèle. \\
 \vspace{5cm}
 \begin{center}
 \begin{picture} (0,0) (20,0) 
@@ -300,7 +306,7 @@ On trouve alors un maximum aux alentours entre $0.70$ et $0.71$ (ce qui ressembl
 \end{picture}
 \end{center}
 \vspace{1cm}
-Procédons à quelques remarque. Tout d'abord, on observe que la figure "optimisée" est symétrique, ce qui semble s'accorder avec les conditions aux limites spatiales qui sont elles symétriques par rapport à l'axe des abscisses. Cela explique pourquoi dans la suite de l'étude, nous accorderons une place importante à la symétrie dans les figures recherchées.\\
+Faisons le point sur ce premier cas simpliste. Premièrement, nous observons que la figure optimale est symétrique, ce qui s'accorde bien avec les conditions aux limites spatiales. Nous tacherons de garder à l'esprit le role clef joué par la symétrie pour la suite de l'étude. Par ailleurs, la méthode utilisée ici, paramétriser les déplacements des sommets mobiles du polygone (un seul sommet ici), n'est pas envisageable pour des objets avec plus de côtés. Il faudra donc se tourner vers d'autres méthodes.
 
 
 
@@ -310,19 +316,23 @@ Procédons à quelques remarque. Tout d'abord, on observe que la figure "optimis
 
 \newpage
 
+
+%=========================================
+%									     PARTIE III
+%=========================================
 
 \part{Cas général du pentagone: premier algorithme}
 
 \section*{I - Stabilité de la famille par petits déplacements}
 
-\pa Nous avons explicité dans la partie 1 les caractéristiques des polygones qui nous intéressent. Par ailleurs, nous avons relevé à quel point ces caractéristiques étaient contraignantes. Nous cherchons une méthode à partir d'un polygone correspondant au cahier des charges de générer, par petits déplacements des sommets, d'autres polygones le respectant encore. Cette méthode pourrait ensuite être utilisée dans un algorithme itératif pour trouver des (nous n'avons pas encore dégagé de résultat sur l'existence d'un polygone optimal unique) chambres optimales. \\ 
+\pa Nous avons explicité dans la partie 1 les caractéristiques des polygones qui nous intéressent. Par ailleurs, nous avons relevé à quel point ces caractéristiques étaient contraignantes. Nous cherchons, en effet, une méthode qui, à partir d'un polygone correspondant au cahier des charges, permet de générer, par petits déplacements des sommets, d'autres polygones le respectant encore. Cette méthode pourrait ensuite être utilisée dans un algorithme itératif afin de trouver des (nous n'avons pas encore dégagé de résultat sur l'existence d'un polygone optimal unique) chambres optimales. \\ 
 \pa L'idée générale de la méthode repose sur le déplacement des sommets du polygone en conservant l'aire du polygone. Pour cela, nous allons déplacer un sommet sur la droite parallèle à celle passant par les deux sommets voisins. Sur le schéma, nous avons représenté cette droite en rouge. L'idée derrière ce déplacement est d'exploiter la formule sur l'aire d'une triangle : $\mathcal{A} = \frac{\mathcal{B}.h}{2}$ , ou $\mathcal{B}$ est la base du triangle et $h$ est la hauteur du triangle. En suivant cette méthode, nous conservons la hauteur et la base du triangle considéré par l'algorithme et par conséquent son aire. \\
 \pa En excluant la possibilité de déplacer les deux sommets correspondant au mur relatif au flux entrant, nous avons alors explicité des petits déplacements stables pour la famille de polygones considérée. \\
 Dans la suite, nous dirons en parlant des sommets du mur modélisant le radiateur qu'ils sont \textbf{fixes}, et que les autres sont \textbf{mobiles}.
 
 \vspace{3.5cm}
 \begin{center}
-	\begin{picture} (100,100) (20,0) 
+	\begin{picture} (100,100) (20,0)
 	\setlength{\unitlength}{2.5cm}
 	\thinlines
 	\put(0,0) {\color{gray} \line(-2,3) {1}}
@@ -371,10 +381,10 @@ Tout d'abord, nous disposons, via MATLAB, d'un outil puissant et efficace de ré
 
 \par 
 \section*{III - Remarques et améliorations}
-Premièrement, nous pouvons remarquer que cet algorithme met en jeu une connexion entre python ou nous gérons les données relatives aux polygones et MATLAB pour faire les calculs. Cette connexion assez technique sur le plan purement informatique est couteuse en temps. Nous envisageons donc pour la suite de notre projet d'éventuellement trouver un module sur python pour y mener l'ensemble du processus. \\
-Par ailleurs, la plus grande partie du temps d'exécution de l'algorithme a pour origine le maillage de la figure. Cette étape est essentielle pour la résolution d'une équation aux dérivées partielles. Pour optimiser notre algorithme, dans la mesure ou chaque étape n'engendre qu'une petite modification du polygone, nous pourrions éventuellement nous tourner vers des méthodes de remaillage efficaces. \\
-Lorsque nous faisons des petits déplacements des sommets, il faut faire attention à ne pas casser "la convexité" de la figure, ce qui pourrait passer aussi par un cas singulier où notre polygone aurait un coté en moins. Nous allons ajouter un test à notre algorithme pour nous assurer qu'il n'y est pas de problème à cause de ces cas limites. \\
-Ensuite, pour améliorer la complexité de l'algorithme, nous envisageons d'adapter la méthode du gradient et de chercher à identifier des directions privilégies.\\
+Premièrement, nous pouvons remarquer que cet algorithme met en jeu une connexion entre python ou nous gérons les données relatives aux polygones et MATLAB pour faire les calculs. Cette connexion assez technique sur le plan purement informatique est couteuse en temps. Nous envisageons donc pour la suite de notre projet d'éventuellement trouver un module sur python pour y mener l'ensemble du processus. \par
+Par ailleurs, la plus grande partie du temps d'exécution de l'algorithme a pour origine le maillage de la figure. Cette étape est essentielle pour la résolution d'une équation aux dérivées partielles. Pour optimiser notre algorithme, dans la mesure ou chaque étape n'engendre qu'une petite modification du polygone, nous pourrions éventuellement nous tourner vers des méthodes de remaillage efficaces. \par
+Lorsque nous faisons des petits déplacements des sommets, il faut faire attention à ne pas casser "la convexité" de la figure, ce qui pourrait passer aussi par un cas singulier où notre polygone aurait un coté en moins. Nous allons ajouter un test à notre algorithme pour nous assurer qu'il n'y est pas de problème à cause de ces cas limites. \par
+Ensuite, pour améliorer la complexité de l'algorithme, nous envisageons d'adapter la méthode du gradient et de chercher à identifier des directions privilégiées.\par
 Ensuite, une grande limitation de cet algorithme est que la valeur du pas influe grandement sur le résultat final. Contrairement à ce que nous pourrions penser naivement un pas petit n'améliore pas nécessairement la qualité du polygone finale (on peut rester bloquer sur un maximum local).
 
 \newpage
@@ -383,27 +393,29 @@ Regardons sur un exemple le résultat de l'algorithme
 
 \begin{center}
 	\includegraphics[scale=0.5]{initialPolygon.png}
-	\\ Figure : Polygone initiale 
+	\\ Figure : Polygone initial 
 \end{center}
 
 \begin{center}
 	\includegraphics[scale=0.5]{finale.png}
-	\\ Figure : Polygone finale, après l'algorithme 
+	\\ Figure : Polygone final, après l'algorithme 
 \end{center}
 
-Pour cet exemple comme pour les autres testés avec l'algorithme le résultat a toujours été analogue: étape après étape du processus le polygone se symétrise par rapport à l'axe de symétrie du problème (axe des abscisses, avec les valeurs choisies)
-
-Pour les semaines à venir, nous allons essayer d'expliciter le profil des températures moyennes optimales obtenues selon les valeurs de pas utilisées en entrée de l'algorithme. Il est fort à parier qu'il soit possible de relier ce comportement à la "structure géométrique" des déplacements.
-\\ Voici un premier graphique obtenu, en raison d'un nombre d'itérations trop faibles utilisé il est difficilement interprétable.
+Pour cet exemple comme pour les autres testés avec l'algorithme le résultat a toujours été analogue: étape après étape du processus le polygone se symétrise par rapport à l'axe de symétrie du problème (axe des abscisses, avec les valeurs choisies)\par
+Pour les semaines à venir, nous allons essayer d'expliciter le profil des températures moyennes optimales obtenues selon les valeurs de pas utilisées en entrée de l'algorithme. Il est fort à parier qu'il soit possible de relier ce comportement à la "structure géométrique" des déplacements.\par 
+Voici un premier graphique obtenu, en raison d'un nombre d'itérations trop faibles utilisé il est difficilement interprétable.\par
 \begin{center}
 	\includegraphics[scale=0.5]{plotPas.png}
 	\\ Figure: valeur de la température moyenne optimale obtenue en fonction du pas utilisé pour un polygone initial donné
 \end{center}
+Tentons toutefois de procéder à quelques remarques sur le graphique ci-dessus. On remarque généralement qu'il y a globalement un amélioration de la valeur maximale pour un pas plus petit (Ce qui semble logique). Toutefois, on remarque une certaine fluctuation locale sur le graphique, et l'expérience nous le prouve aussi : Dans certains cas de figure, un pas plus grand permet d'approcher avec notre algorithme des formes plus optimisées. Cela est du au fait que certains pas bien choisis permettent de bien symétriser la forme initiale.
 
 
 \newpage
 \part{Vers la suite du projet ...}
 \pa 
+
+Il faudra développer et utiliser la partie sur le degré de non symétrie.
 
 Nous avons trouvé une autre façon pour modifier légèrement un polygone tout en restant stable dans la famille choisie. On déplace un sommet mobile dans la direction souhaitée, et ensuite on dilate/contracte le polygone dans la direction orthogonale au cote fixé. Ainsi, cette modification permet de rester à aire et à longueur du mur fixé constantes.
 \begin{center}

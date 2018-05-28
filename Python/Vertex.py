@@ -234,3 +234,33 @@ class Polygon :
 
         poly = [[self.getx(i), self.gety(i)] for i in range(self.N)]
         return deg_sym(poly, step)
+
+
+    #------------------------------------------------------------------------------------
+    def contract(self, area, error) :
+        """
+        Contracte la figure selon l'axe des abscisses de sorte à ce qu'elle atteigne
+        l'aide donnée en argument
+
+        area : aire à obtenir en fin d'algorithme
+        error : erreur maximale
+        """
+
+        lastArea = self.area()                  # Aire initiale
+        step = .1
+        right = Vector(1, 0)
+        left = Vector(-1, 0)
+
+
+        while abs(self.area() - area) > error :
+            if (lastArea - area) * (self.area() - area) < 0 :
+                # Si on est allé trop loin et avons dépassé la valeur cible,
+                # on diminue le pas comme dans une dichotomie
+                step = step / 2
+            lastArea = self.area()
+            if lastArea - area < 0 :
+                for i in range(2, self.N) :
+                    self.freeMove(i, right, step)
+            else :
+                for i in range(2, self.N) :
+                    self.freeMove(i, left, step)

@@ -1,18 +1,18 @@
-function I = computeIntegral(mat) 
+function I = computeIntegral(mat)
 
 
-model = createpde() ; 
+model = createpde() ;
 g=decsg(mat);
 geometryFromEdges(model,g); % geometryFromEdges for 2-D
 
 
 edges = [2:1:(size(mat)-1)/2];
-%Conditions de bord : 
-%Les murs non chauffés sont à la température éxterieure To = 10°C
+%Conditions de bord :
+%Les murs non chauffÃ©s sont Ã© la tempÃ©rature Ã©xterieure To = 10C
 applyBoundaryCondition(model,'dirichlet','Edge',edges,'u',10);
 
-%Le mur chauffé est modelisé par un flux rentrant , on suppose que l'on a
-%mis un radiateur au niveau du mur 
+%Le mur chauffÃ© est modelisÃ© par un flux rentrant , on suppose que l'on a
+%mis un radiateur au niveau du mur
 applyBoundaryCondition(model,'neumann','Edge',[1],'q',0,'g',10000);
 
 a = 0;
@@ -23,25 +23,25 @@ f=0;
 
 
 
-%Le résultat est ainsi renvoyé 
-%On calcule l'intégrale de la fonction renvoyée
+%Le rÃ©sultat est ainsi renvoyÃ©
+%On calcule l'intÃ©grale de la fonction renvoyÃ©e
 
-coord = p ; % Contient les coordonnées des sommets 
-indices = t ; % Contient les références de chaque élément
-val = u ; 
+coord = p ; % Contient les coordonnÃ©es des sommets
+indices = t ; % Contient les rÃ©fÃ©rences de chaque Ã©lÃ©ment
+val = u ;
 
-% On va calculer l'intégrale en évaluant la valeur de la fonction sur
-% chaque petit triangle 
+% On va calculer l'intÃ©grale en Ã©valuant la valeur de la fonction sur
+% chaque petit triangle
 
-I =0 ; 
-area = 0 ; 
-for i = 1:length(indices) ; % Pour chaque triangle 
-    a = coord(:,indices(1,i)) ;     % Coord du 1er point 
-    b = coord(:,indices(2,i)) ;     % Coord du second point 
-    c = coord(:,indices(3,i)) ;     % Coorddu troisième point
-    
+I =0 ;
+area = 0 ;
+for i = 1:length(indices) ; % Pour chaque triangle
+    a = coord(:,indices(1,i)) ;     % Coord du 1er point
+    b = coord(:,indices(2,i)) ;     % Coord du second point
+    c = coord(:,indices(3,i)) ;     % Coorddu troisiï¿½me point
+
     moy = (val(indices(1,i))+val(indices(1,i))+val(indices(1,i)))/3 ;
-    area = area + 0.5*abs(a(1)*c(2)-a(1)*b(2)+b(1)*a(2)-b(1)*c(2)+c(1)*b(2)-c(1)*a(2)) ; 
+    area = area + 0.5*abs(a(1)*c(2)-a(1)*b(2)+b(1)*a(2)-b(1)*c(2)+c(1)*b(2)-c(1)*a(2)) ;
     I = I + moy*0.5*abs(a(1)*c(2)-a(1)*b(2)+b(1)*a(2)-b(1)*c(2)+c(1)*b(2)-c(1)*a(2)) ;
 end
-    I = I/area ; 
+    I = I/area ;

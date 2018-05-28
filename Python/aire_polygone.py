@@ -1,6 +1,4 @@
 "Aire d'un polygone"
-
-#import
 import math
 
 def decoupe_triangles(poly): #poly = liste des coord
@@ -12,8 +10,6 @@ def decoupe_triangles(poly): #poly = liste des coord
         resultat.append(triangle)
     return resultat
 
-#try
-#print(decoupe_triangles(list(range(6))))
 
 def longueur_cotes(triangle): #liste coordonnée
     resultat = [] #initialisation résultat
@@ -23,8 +19,6 @@ def longueur_cotes(triangle): #liste coordonnée
         resultat.append(cote)
     return resultat
 
-#try
-#print(longueur_cotes([[0,1],[0,0],[1,0]]))
 
 
 def calcul_aire(triangle_l): #entrée = longueurs cotés, sortie = aire du triangle
@@ -40,10 +34,3 @@ def aire_poly(poly): #entrée: liste coord du poly
     for i in range(len(List_triangles)):
         resultat += calcul_aire(longueur_cotes(List_triangles[i]))
     return resultat
-
-
-#try
-#poly = [[0, -1], [0, 1], [1, 1.5], [2, -1], [0.5, -2]]
-#carre = [[0,0], [0,1], [1,0], [1,1]]
-#print(aire_poly(poly))
-#print(aire_poly(carre))
