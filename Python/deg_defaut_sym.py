@@ -4,6 +4,8 @@
 =================================================================================
 """
 from aire_polygone import *
+from tkinter import *
+from numpy import *
 #nécessite l'importe du module aire_polygone
 
 
@@ -27,15 +29,20 @@ def second(L):
 #-------------------------------------------------------------
 #   teste le signe d'un nombre
 def signe(nbr):
-    if nbr >= 0:
+    if nbr > 0:
         return 1
+    elif nbr == 0:
+        return 0
     else:
         return -1
 
 
-#-------------------------------------------------------------
-def trouver_sommets(Poly, x): #renvoie les sommets concernés
-
+#-------------------------------------------------------------*=
+#si x abscisse  d'un point
+#la fonction renvoie les (un ou deux) couples de sommets consecutifs
+#dont les abscisses des points respectifs
+#encadrent x
+def trouver_sommets(Poly, x):
     sommets = []
     Poly.append(Poly[0])
     for i in range(len(Poly) - 1):
@@ -59,19 +66,22 @@ def interpol(point1, point2, x): #interpole l'ordonnée
 #-------------------------------------------------------------
 #    Main function
 #    Renvoie le scalaire donnant le score de symétrie
-def deg_sym(Poly, pas):
 
-    #initialisation de la borne a pas depassée pour sortir du polygone
-    xborne = Poly[0][0]
-    for i in range(1, len(Poly)):
-        if Poly[i][0] > xborne:
-            xborne = Poly[i][0]
-    x = 0 #initialisation
-    xmax = -1 #initialisation
-    deg = 0
+#Fonction auxiliaire pour trouver la borne
+def trouver_xmax(Poly):
+    xmax = 0 #initialisation
+    for increment in range(2, len(Poly)):
+        if Poly[increment][0] > xmax:
+            xmax = Poly[increment][0]
+    return xmax
 
+def deg_sym(Poly, nbr_pas):
 
-    for i in range(int(xborne / pas)):
+    xborne = trouver_xmax(Poly) #initialisation de la borne a ne pas depasser pour sortir du polygone
+    pas = xborne / nbr_pas #le pas de déplacement le long de l'axes
+    x, xmax, deg = 0, -1, 0 #initialisation
+
+    for increment in range(nbr_pas):
 
         #incrémentation de l'abscisse le long de l'axe de symétrie
         x += pas
@@ -79,6 +89,9 @@ def deg_sym(Poly, pas):
         # Précaution pour ne pas qu'on sorte du polygone
         if x >= xborne: #teste si x est dans le polygone
             break
+
+        #Pour optimiser les calculs, on ne change de sommet
+        #que lorsque c'est nécessaire
         if x >= xmax:
             sommets_vois = trouver_sommets(Poly, x)
             xmax =  second([sommets_vois[0][0][0],
@@ -90,8 +103,38 @@ def deg_sym(Poly, pas):
         ybas = interpol(sommets_vois[1][0], sommets_vois[1][1], x)
 
         if signe(yhaut) != signe(ybas):
-            deg += abs(yhaut + ybas)
+            deg += abs(yhaut + ybas) / min(abs(yhaut), abs(ybas)) #normalisation de la longueur
         else:
-            deg += abs((yhaut - ybas) / 2)
-            
-    return deg
+            deg += abs((yhaut - ybas) / 2) / min(abs(yhaut), abs(ybas))
+
+    return - deg
+
+#poly0 = [[0, -1], [0, 1], [2, 2], [3, 0], [2, -2]]
+#poly1 = [[0, -1], [0, 1], [1, 1.5], [2, -7], [1, -5]]
+#poly2 = [[0, -2], [0, 2], [2, 3], [4, -14], [2, -10]]
+#poly3 = [[0, -1], [0, 1], [1, 1.5], [2, -4], [1, -1.5]]
+#poly4 = [[0, -1], [0, 1], [2, 1], [3,0], [2, -2]]
+
+# Exemple à decommenter
+#print(deg_sym(poly0, 500))
+#print(deg_sym(poly1, 500))
+#print(deg_sym(poly2, 500))
+#print(deg_sym(poly3, 500))
+#print(deg_sym(poly4, 500))
+
+def recup(Poly):
+    x, y =  [], []
+    for e in Poly:
+        x.append(e[0]), y.append(e[1])
+    x.append(Poly[0][0])
+    y.append(Poly[0][1])
+    return x,y
+
+
+
+#from pylab import *
+#
+#x,y = recup(poly4)
+#plot(x, y)
+#title("Polygone 4")
+#show()
