@@ -9,6 +9,7 @@ from Vertex import *
 import matlab.engine
 import matplotlib.pyplot as plt
 import numpy as np
+from math import cos, sin, pi
 
 
 
@@ -51,18 +52,15 @@ def bestValue(polygon, initValue, i, nbTest, dl, eng) :
     #   et le déplacement associé à celui-ci
     return [L[indexMax], (indexMax - nbTest) * dl]
 
-
-
-
-
-
-
 def bestValueOS(polygon, initValue, i, nbTest, dl, eng) :
-    #    OS : Odd Symetrical
+    #
+    #   OS : Odd Symetrical
     #   On stocke les valeurs des intégrales liées à chacun des déplacements
     #   dans une liste
     #   right correspond aux déplacements à droite du point
     #   left correspond aux déplacement à gauche du point
+    #   nbTest correspond au nombre de tests de part et d'autre de chaque
+    #
 
     left = [polygon.valueIntegral(i, -j * dl, eng) for j in range(nbTest)]
     right = [polygon.valueIntegral(i, j * dl, eng) for j in range(nbTest)]
@@ -76,17 +74,12 @@ def bestValueOS(polygon, initValue, i, nbTest, dl, eng) :
     #   et le déplacement associé à celui-ci
     return [L[indexMax], (indexMax - nbTest) * dl]
 
-
-
-
-
 # ===============================================================================
 #                              Naive Mainloop
 # ===============================================================================
 
 #   Cette boucle naïve se contente de parcourir les sommets pour trouver le
 #   meilleur déplacement possible
-
 
 def naiveMainloop(polygon, dl, nbTest, nbIteration, values, eng) :
     #   Conservation des données de la temperature moyenne pour chaque itération
@@ -114,7 +107,7 @@ def naiveMainloop(polygon, dl, nbTest, nbIteration, values, eng) :
     #   on arrête la simulation
     if max[1] == 0 :
         print("Il reste " + str(nbIteration) + " itérations")
-        return 0
+        return nbIteration
 
     # Sinon on bouge un sommet
     polygon.move(rank, max[1])
@@ -122,8 +115,6 @@ def naiveMainloop(polygon, dl, nbTest, nbIteration, values, eng) :
 
     # Appel récursive de la fonction
     naiveMainloop(polygon, dl, nbTest, nbIteration - 1, values, eng)
-
-
 
 # ===============================================================================
 #                          Mainloop with refinement
@@ -166,9 +157,6 @@ def refineMainloop(polygon, dl, nbIteration, eng) :
 
     # Appel récursive de la fonction
     refineMainloop(polygon, dl, nbIteration - 1, eng)
-
-
-
 
 # ===============================================================================
 #               Mainloop on Symetrical Figures with Odd number of sides
@@ -213,7 +201,70 @@ def OSMainloop(polygon, dl, nbIteration, nbTest, eng) :
     # Appel récursive de la fonction
     OSMainloop(polygon, dl, nbIteration - 1, nbTest, eng)
 
+# ===============================================================================
+#            Mainloop avec exploitation de la fonction de contraction
+# ===============================================================================
 
+#   Les fonctions ci-dessous exploitent la fonction de contraction en adoptant des
+#   déplacements beaucoup plus libres
+
+def bestValueContraction(polygon, initValue, i, nbTest, r, eng) :
+    """
+    polygon : polygone donnée en entrée
+    initValue : Valeur de l'intégrale initiale (pour ne pas la recalculer)
+    nbTest : Le nombre de test
+    r : longueur du déplacement
+    """
+    area = polygon.area()
+    L = []
+    for n in range(nbTest) :
+        copy = polygon.deepCopy()
+        dir = Vector(cos(n * 2 * pi / nbTest), sin(n * 2 * pi / nbTest))
+        copy.moveFreely(i, dir, r)         # Déplacement du point
+        copy.contract(area, .01)
+        L = L + [copy.valueIntegral(0, 0, eng)]
+
+    L = np.array(L)
+    indexMax = np.argmax(L)
+    max = L[indexMax]
+    if max > initValue :
+        return [L[indexMax], indexMax]
+    return [initValue, 'o']
+
+def mainloopContraction(polygon, nbTest, nbIteration, r, area, values, eng) :
+    """
+    La fonction définie ici parcourt les sommets en effectuant des déplacements
+    plus libres que dans la version naive. On exploite ici des déplacements dans des
+    directions circulaires, en combinant cela avec des contractions de la figure en entier
+    """
+    if nbIteration == 0 :
+        print("Fin de la simulation")
+        return nbIteration
+
+    initValue = polygon.valueIntegral(0, 0, eng)
+
+    max = [0,0]                                                     # Initialisation du maximum
+    rank = 0
+    for i in range(2, polygon.N) :
+        val = bestValueContraction(polygon, initValue, i, nbTest, r, eng)
+        if val[0] > max[0] :
+            max = val
+            rank = i
+
+    #   Si la valeur maximum est atteinte pour un déplacement nul,
+    #   on arrête la simulation
+    if max[1] == 'o' :
+        print("Fin de la simulation, plus d'amélioration")
+        return nbIteration
+
+    print(max)
+    print(rank)
+    # Sinon on bouge un sommet
+    dir = Vector(cos(2 * pi * max[1] / nbTest), sin(2 * pi * max[1] / nbTest))
+    polygon.moveFreely(rank, dir, r)
+    polygon.contract(area, .01)
+    values.append(max[0])
+    mainloopContraction(polygon, nbTest, nbIteration - 1, r, area, values, eng)
 
 
 #   Idées à faire pour le developpement du code :

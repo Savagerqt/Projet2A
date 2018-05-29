@@ -19,7 +19,7 @@ a = 0;
 c=1;
 a=0;
 f=0;
-[u,p,e,t] = adaptmesh(g,model,c,a,f,'Par',0.1,'tripick','pdeadworst','MesherVersion','R2013a');
+[u,p,e,t] = adaptmesh(g,model,c,a,f,'Par',0.1,'MesherVersion','R2013a');
 
 
 

@@ -3,6 +3,7 @@
                       MODULE: degré de défaut de symétrie
 =================================================================================
 """
+from Vertex import *
 from aire_polygone import *
 from tkinter import *
 from numpy import *

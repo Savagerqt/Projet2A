@@ -105,10 +105,10 @@ class Polygon :
 
     # Print
     def __str__(self) :
-        res = "("
+        res = "class Polygon : [ "
         for vertex in self.vertices :
             res = res + vertex.__str__() + ","
-        return res[:-1]+')'
+        return res[:-1]+' ]'
 
 
     #------------------------------------------------------------------------------------
@@ -173,6 +173,15 @@ class Polygon :
         vector = self.directorVertice(i)
         self.vertices[i % self.N].move(vector, dl)
 
+    #----------------------------------------------------------------------------
+    #
+    #    Déplacement d'un point du polygone
+    #    i correspond au numéro du sommet et dl à la longueur du déplacement
+    #    vector correspond au vecteur de déplacement
+
+    def moveFreely(self, i, vector, dl) :
+        self.vertices[i % self.N].move(vector, dl)
+
 
     #------------------------------------------------------------------------------------
     #
@@ -186,6 +195,7 @@ class Polygon :
         value = eng.computeIntegral(mat)
         self.move(i, -dl)
         return value
+
 
     #------------------------------------------------------------------------------------
     #
@@ -260,7 +270,7 @@ class Polygon :
             lastArea = self.area()
             if lastArea - area < 0 :
                 for i in range(2, self.N) :
-                    self.freeMove(i, right, step)
+                    self.moveFreely(i, right, step)
             else :
                 for i in range(2, self.N) :
-                    self.freeMove(i, left, step)
+                    self.moveFreely(i, left, step)
