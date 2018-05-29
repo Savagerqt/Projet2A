@@ -116,47 +116,6 @@ def naiveMainloop(polygon, dl, nbTest, nbIteration, values, eng) :
     # Appel récursive de la fonction
     naiveMainloop(polygon, dl, nbTest, nbIteration - 1, values, eng)
 
-# ===============================================================================
-#                          Mainloop with refinement
-# ===============================================================================
-
-#   Il s'agit plus ou moins de la même boucle que la précédente, sauf que cette fois
-#   ci, l'algorithme rafine le pas quand la polygone a été suffisamment optimisé
-#   pour un pas donné
-
-def refineMainloop(polygon, dl, nbIteration, eng) :
-
-    if nbIteration == 0 or dl < 0.001 :
-        print("Fin de la simulation")
-        return 0
-
-    initValue = polygon.valueIntegral(0,0,eng)
-
-    #   On cherche le petit déplacement qui maximise notre fonctionnelle
-    #   de forme lors d'une itération de l'algorithme
-    #   On examine chacun des sommets indépendamment
-
-    max = [0,0]                                                     # Initialisation du maximum
-    rank = 0
-    for i in range(2, polygon.N) :
-        val = bestValue(polygon, initValue, i, dl, eng)
-        if val[0] > max[0] :
-            max = val
-            rank = i
-
-    #   Si le polygone ne bouge plus, on raffine le pas
-    #   On ne prend pas non plus un pas trop petit, car
-    #   cela sera inutile
-
-    if max[1] == 0 :
-        print("Raffinement du pas" + str(dl/2))
-        refineMainloop(polygon, dl/2, nbIteration - 1, eng)
-
-    # Sinon on bouge un sommet
-    polygon.move(rank, max[1])
-
-    # Appel récursive de la fonction
-    refineMainloop(polygon, dl, nbIteration - 1, eng)
 
 # ===============================================================================
 #               Mainloop on Symetrical Figures with Odd number of sides
@@ -265,6 +224,156 @@ def mainloopContraction(polygon, nbTest, nbIteration, r, area, values, eng) :
     polygon.contract(area, .01)
     values.append(max[0])
     mainloopContraction(polygon, nbTest, nbIteration - 1, r, area, values, eng)
+
+# ===============================================================================
+#            Mainloop avec exploitation de la fonction de contraction
+#                       et exploitation des symétries
+# ===============================================================================
+
+def bestValueContraction_Symetry(polygon, area, initValue, i, nbTest, r, impair, pointe, eng) :
+    # Si l'indice du sommet est trop grand, c'est qu'il y a une erreur
+    N = polygon.N
+    assert(i < N / 2 + 1)
+    L = []
+
+    # /// CAS IMPAIR ///
+    if impair :
+        # DEBUGGE
+        if pointe :
+            # Si on s'attaque au sommet, on ne peut tester que deux directions, qui
+            # sont les direction à droite et à gauche sur l'axe des abscisses
+            # (car sinon on casse la symétrie par rapport à cet axe)
+            for n in [1, -1] :
+                copy = polygon.deepCopy()
+                dir = Vector(n, 0)
+                copy.moveFreely(i, dir, r)         # Déplacement du point i
+                copy.contract(area, .01)
+                copy.plotPY('r')
+                L = L + [copy.valueIntegral(0, 0, eng)]
+
+            L = np.array(L)
+            print(L)
+            indexMax = np.argmax(L)
+            max = L[indexMax]
+            if max > initValue :
+                if indexMax == 0 :
+                    return [L[indexMax], '+']
+                else :
+                    return [L[indexMax], '-']
+            else :
+                return [initValue, 'o']
+        # DEBUGGE
+        else :
+            # Si on s'occupe d'un côté qui n'est pas le sommet
+            for n in range(nbTest) :
+                copy = polygon.deepCopy()
+                dir = Vector(cos(n * 2 * pi / nbTest), sin(n * 2 * pi / nbTest))
+                dirSym = Vector(cos(n * 2 * pi / nbTest), -sin(n * 2 * pi / nbTest))
+                copy.moveFreely(i, dir, r)         # Déplacement du point i
+                copy.moveFreely(N - i + 1, dirSym, r)         # Déplacement du symétrique
+                copy.contract(area, .01)
+                L = L + [copy.valueIntegral(0, 0, eng)]
+
+            L = np.array(L)
+            print(L)
+            indexMax = np.argmax(L)
+            max = L[indexMax]
+            if max > initValue :
+                return [L[indexMax], indexMax]
+            return [initValue, 'o']
+
+    # /// CAS PAIR ///
+    else :
+        for n in range(nbTest) :
+            print('Enter')
+            copy = polygon.deepCopy()
+            dir = Vector(cos(n * 2 * pi / nbTest), sin(n * 2 * pi / nbTest))
+            dirSym = Vector(cos(n * 2 * pi / nbTest), -sin(n * 2 * pi / nbTest))
+            copy.moveFreely(i, dir, r)         # Déplacement du point i
+            copy.moveFreely(N - i + 1, dirSym, r)         # Déplacement du symétrique
+            copy.contract(area, .01)
+            copy.plotPY('r')
+            plt.show()
+            L = L + [copy.valueIntegral(0, 0, eng)]
+
+        L = np.array(L)
+        indexMax = np.argmax(L)
+        max = L[indexMax]
+        if max > initValue :
+            return [L[indexMax], indexMax]
+        return [initValue, 'o']
+
+# Il reste a corriger les éventuels cas dégénerés, lorsque le polygone
+# risque de perdre son caractère convexe
+def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, eng) :
+    """
+    La fonction definie ici se applique l'algorithme de boucle avec contraction mais en
+    exploitant les symétrie de la figure. Le polygon donné en entrée doit bien évidemment
+    être symétrique pour que l'algorithme fonctionne
+    """
+    if nbIteration == 0 :
+        return 0
+    # Initialisation de la valeur de l'intégrale
+    initValue = polygon.valueIntegral(0, 0, eng)
+    # On va devoir dissocier deux cas de figure selon que le polygon
+    # possède un nombre de côtés pair ou impair
+    n = polygon.N
+    impair = (n % 2 != 0)  # Booléen pour savoir si le polygone est impair
+
+    # Initialise une liste avec la liste des côtés modifiables
+    sides = [i for i in range(2, int(n / 2) + int(impair))]
+
+    max = [0,0]                            # Initialisation du maximum
+    rank = 0
+
+    for i in sides :
+        # On parcourt la liste des sommets possibles
+        if i == int(n / 2) + 1 and impair :
+            val = bestValueContraction_Symetry(polygon, area, initValue, i, nbtest, r, impair, True, eng)
+        else :
+            val = bestValueContraction_Symetry(polygon, area, initValue, i, nbtest, r, impair, False, eng)
+
+        if val[0] > max[0] :
+            max = val
+            rank = i
+
+    #   Si la valeur maximum est atteinte pour un déplacement nul,
+    #   on arrête la simulation
+    if max[1] == 'o' :
+        print("Fin de la simulation, plus d'amélioration")
+        return nbIteration
+
+    # Sinon on bouge un sommet
+
+    # Cas de si on manipule le sommet
+    if max[1] == '+' :
+        polygon.moveFreely(rank, Vector(1, 0), r)
+    if max[2] == '-' :
+        polygon.moveFreely(rank, Vector(-1, 0) , r)
+    else :
+        # Vecteur directeur du déplacement gardé
+        dir = Vector(cos(2 * pi * max[1] / nbTest), sin(2 * pi * max[1] / nbTest))
+        dirSym = Vector(cos(2 * pi * max[1] / nbTest), -sin(2 * pi * max[1] / nbTest))
+
+        #Déplacement du premier point
+        polygon.moveFreely(rank, dir, r)
+
+        # Déplacement de son symétrique (plusieurs cas)
+        if impair :
+            rankSym = n - rank + 1
+            polygon.moveFreely(rankSym, dirSym, r)
+        else :
+            rankSym = n - rank
+            polygon.moveFreely(rankSym, dirSym, r)
+
+    polygon.contract(area, .01)
+    values.append(max[0])
+    mainloopContraction_Symetry(polygon, nbTest, nbIteration - 1, r, area, values, eng)
+
+
+# ===============================================================================
+#                       Mainloop avec inspiration circulaire
+# ===============================================================================
 
 
 #   Idées à faire pour le developpement du code :
