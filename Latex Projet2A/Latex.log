@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.10.22)  8 MAR 2018 11:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.10.22)  30 MAY 2018 18:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -799,33 +799,36 @@ Overfull \hbox (12.12292pt too wide) in paragraph at lines 364--365
 File: initialPolygon.png Graphic file (type png)
 
 <use initialPolygon.png>
-Package pdftex.def Info: initialPolygon.png used on input line 385.
+Package pdftex.def Info: initialPolygon.png used on input line 386.
 (pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
  <finale.png, id=169, 578.16pt x 433.62pt>
 File: finale.png Graphic file (type png)
 
 <use finale.png>
-Package pdftex.def Info: finale.png used on input line 390.
+Package pdftex.def Info: finale.png used on input line 391.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
  <plotPas.png, id=170, 462.528pt x 346.896pt>
 File: plotPas.png Graphic file (type png)
 
 <use plotPas.png>
-Package pdftex.def Info: plotPas.png used on input line 399.
+Package pdftex.def Info: plotPas.png used on input line 400.
 (pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
- [10 <./initialPolygon.png> <./finale.png>] [11 <./plotPas.png>] <alternatif.pn
-g, id=183, 764.8575pt x 356.33125pt>
-File: alternatif.png Graphic file (type png)
- <use alternatif.png>
-Package pdftex.def Info: alternatif.png used on input line 410.
-(pdftex.def)             Requested size: 382.42781pt x 178.16518pt.
-
-Overfull \hbox (9.48413pt too wide) in paragraph at lines 413--415
-\OT1/cmr/m/n/10 Par ailleurs, nous en-vis-ageons ^^Segalement d'autoriser une m
-od-i-fi-ca-tion de l'aire tout en p^^Senalisant
+ [10 <./initialPolygon.png> <./finale.png>] [11 <./plotPas.png>]
+Overfull \hbox (8.07141pt too wide) in paragraph at lines 411--414
+ \OT1/cmr/m/n/10 Con-traire-ment ^^Ra la m^^Sethode pr^^Sec^^Sedente, l'id^^See
+ est ici de s'^^Secarter de la no-tion de d^^Seplacement
  []
 
-[12 <./alternatif.png>]
+
+LaTeX Warning: \oval, \circle, or \line size unavailable on input line 425.
+
+<positions_circle.png, id=183, 604.2575pt x 604.2575pt>
+File: positions_circle.png Graphic file (type png)
+
+<use positions_circle.png>
+Package pdftex.def Info: positions_circle.png used on input line 438.
+(pdftex.def)             Requested size: 120.84935pt x 120.84935pt.
+ [12] [13 <./positions_circle.png>]
 (/usr/local/texlive/2017basic/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
@@ -834,89 +837,89 @@ File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
 (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
-) [13]
-Overfull \hbox (42.31616pt too wide) in paragraph at lines 522--523
+) [14]
+Overfull \hbox (42.31616pt too wide) in paragraph at lines 588--589
 \OT1/cmr/m/n/10 som-met i est d^^Seplac^^Se d'une longueur dl. Cette fonc-tion 
 est d^^Seclin^^See en $\OML/cmm/m/it/10 valueIntegralOS\OT1/cmr/m/n/10 (\OML/cm
 m/m/it/10 i; dl; eng\OT1/cmr/m/n/10 )$
  []
 
 
-Overfull \hbox (8.39957pt too wide) in paragraph at lines 523--524
+Overfull \hbox (8.39957pt too wide) in paragraph at lines 589--590
 []$\OML/cmm/m/it/10 plotPY\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 color\OT1/cmr/m/n/1
 0 )$ qui trace sur le can-vas le poly-gon (pour faire des repr^^Sesentations gr
 aphiques 
  []
 
-[14] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
+[15] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Overfull \hbox (16.30376pt too wide) in paragraph at lines 536--537
+Overfull \hbox (16.30376pt too wide) in paragraph at lines 602--603
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
  
  []
 
 
-Overfull \hbox (6.10353pt too wide) in paragraph at lines 584--585
+Overfull \hbox (6.10353pt too wide) in paragraph at lines 650--651
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[15] [16]
-Overfull \hbox (5.84518pt too wide) in paragraph at lines 707--708
+[16] [17]
+Overfull \hbox (5.84518pt too wide) in paragraph at lines 773--774
 []\OT1/cmr/m/n/10 La g^^Seom^^Setrie im-port^^See est im-plant^^See dans l'obje
 t model qui va servir ^^Ra r^^Sesoudre l'^^Sequation
  []
 
 (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
-) [17]
-Overfull \hbox (12.77231pt too wide) in paragraph at lines 774--774
+) [18]
+Overfull \hbox (12.77231pt too wide) in paragraph at lines 840--840
 [][]\OT1/cmr/bx/n/14.4 Implementation de l'algorithme d'optimisation sous Pytho
 n 
  []
 
-[18] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
+[19] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Overfull \hbox (1.00342pt too wide) in paragraph at lines 781--782
+Overfull \hbox (1.00342pt too wide) in paragraph at lines 847--848
 [][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (1.00342pt too wide) in paragraph at lines 783--785
+Overfull \hbox (1.00342pt too wide) in paragraph at lines 849--851
 [][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (1.00342pt too wide) in paragraph at lines 795--796
+Overfull \hbox (1.00342pt too wide) in paragraph at lines 861--862
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ] 
  []
 
-[19] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
+[20] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Overfull \hbox (6.10353pt too wide) in paragraph at lines 847--848
+Overfull \hbox (6.10353pt too wide) in paragraph at lines 913--914
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
 [][] 
  []
 
 
-Overfull \hbox (11.20364pt too wide) in paragraph at lines 848--850
+Overfull \hbox (11.20364pt too wide) in paragraph at lines 914--916
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
 [][][][][][][][][][][][][][][][][][][] 
  []
 
-[20] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
+[21] (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Overfull \hbox (154.0068pt too wide) in paragraph at lines 907--908
+Overfull \hbox (154.0068pt too wide) in paragraph at lines 973--974
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
@@ -924,33 +927,33 @@ Overfull \hbox (154.0068pt too wide) in paragraph at lines 907--908
 (/usr/local/texlive/2017basic/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Overfull \hbox (11.20364pt too wide) in paragraph at lines 937--938
+Overfull \hbox (11.20364pt too wide) in paragraph at lines 1003--1004
 [][][][][][] 
  []
 
 
-Overfull \hbox (11.20364pt too wide) in paragraph at lines 939--940
+Overfull \hbox (11.20364pt too wide) in paragraph at lines 1005--1006
 [][][][][][] 
  []
 
-[21] [22]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1039.
- [23]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1039.
+[22] [23]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1105.
+ [24]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1105.
  (./Latex.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1039.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1039.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1105.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1105.
 
 Package rerunfilecheck Info: File `Latex.out' has not changed.
-(rerunfilecheck)             Checksum: AB5564D1AE96D4643E566518E29189A6;287.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1039.
+(rerunfilecheck)             Checksum: 47359429355F9167B553C75E2F42059E;280.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1105.
  ) 
 Here is how much of TeX's memory you used:
- 10107 strings out of 494437
- 142032 string characters out of 6166644
+ 10114 strings out of 494437
+ 142164 string characters out of 6166644
  315360 words of memory out of 5000000
- 12675 multiletter control sequences out of 15000+600000
- 12484 words of font info for 49 fonts, out of 8000000 for 9000
+ 12680 multiletter control sequences out of 15000+600000
+ 13731 words of font info for 54 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  28i,8n,42p,730b,2336s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
@@ -973,10 +976,10 @@ ive/2017basic/texmf-dist/fonts/type1/public/amsfonts/latxfont/line10.pfb></usr/
 local/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/latxfont/linew10
 .pfb></usr/local/texlive/2017basic/texmf-dist/fonts/type1/public/amsfonts/symbo
 ls/msbm10.pfb>
-Output written on Latex.pdf (23 pages, 366295 bytes).
+Output written on Latex.pdf (24 pages, 361979 bytes).
 PDF statistics:
- 947 PDF objects out of 1000 (max. 8388607)
- 885 compressed objects within 9 object streams
- 635 named destinations out of 1000 (max. 500000)
+ 953 PDF objects out of 1000 (max. 8388607)
+ 890 compressed objects within 9 object streams
+ 637 named destinations out of 1000 (max. 500000)
  63 words of extra memory for PDF output out of 10000 (max. 10000000)
 

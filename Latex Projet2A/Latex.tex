@@ -379,6 +379,7 @@ Ensuite, une grande limitation de cet algorithme est que la valeur du pas influe
 
 \newpage
 \section*{IV - Résultats de cet algorithme }
+
 Regardons sur un exemple le résultat de l'algorithme
 
 \begin{center}
@@ -402,16 +403,81 @@ Pour les semaines à venir, nous allons essayer d'expliciter le profil des temp�
 
 
 \newpage
-\part{Vers la suite du projet ...}
-\pa 
+\part{Un Nouvel Algorithme} 
+\pa L'algorithme présenté précédemment permet d'optimiser une polygone de façon relativement limitée, car les déplacements sont extrêmement spécifiques afin de conserver l'aire. Il peut alors être intéressant de chercher à trouver une méthode de déplacement des points qui permet une plus grande liberté dans le mouvement. 
 
-Nous avons trouvé une autre façon pour modifier légèrement un polygone tout en restant stable dans la famille choisie. On déplace un sommet mobile dans la direction souhaitée, et ensuite on dilate/contracte le polygone dans la direction orthogonale au cote fixé. Ainsi, cette modification permet de rester à aire et à longueur du mur fixé constantes.
+\section*{I - Description de la méthode}
+
+\pa Contrairement à la méthode précédente, l'idée est ici de s'écarter de la notion de déplacement avec conservation de l'aire du polygone. Pour gagner en souplesse de déplacement l'idée va être d'essayer plusieurs déplacement élémentaires sur chacun des sommets amovibles pour les tester tous et trouver le meilleur déplacement. Dans l'algorithme précédente nous restions sur une droite afin de conserver l'aire du polygone, mais cette fois-ci nous allons tester des déplacements répartis sur un cercle de rayon fixé autour du point à déplacer (voir Fig.1)
+% ---------------------- DESSIN --------------------------
+\vspace{1.5cm}
 \begin{center}
-	\includegraphics[scale=0.5]{alternatif.png}
-	\\ Figure: illustation de la nouvelle méthode 1) déplacement libre 2) normalisation
+	\begin{picture} (150,150) (35,0) 
+	\setlength{\unitlength}{2cm}
+
+	\thicklines
+	\put(0,0){\line(0, 1){2}}
+	\put(0,0){\line(5,-2){2}}
+	\put(0,2) {\line(5,2) {2}}
+	\put(2,2.8) {\line(1,-1) {1.8}}
+	\put(2,-0.8) {\line(1,1) {1.8}}
+	\put(0.95,1) {\LARGE{$\Omega$}}
+	\put(3.8, 1){\color{red}\circle{100}}
+	\put(3.8, 1){\color{black}\circle*{0.1}}
+	\put(3.9, 0.9){$A$}
+	\end{picture}
+	\\
+	\vspace{3cm}
+	Fig.1 : Zone de déplacement du sommet $A$ pour l'algorithme
 \end{center}
-Par ailleurs, nous envisageons également d'autoriser une modification de l'aire tout en pénalisant ce phénomène. 
-Il sera alors intéressant de comparer les résultats de ces différentes méthodes.
+\vspace{0.5cm}
+
+\pa Afin de discrétiser ce cercle, nous allons choisir un nombre de positions (ou directions) équitablement réparties sur le cercle. L'algorithme va ainsi pouvoir essayer toutes les configurations possibles sur le cercle afin de choisir le déplacement qui maximise la valeur moyenne. \par
+
+\begin{center}
+	\includegraphics[scale=0.2]{positions_circle.png}\\
+	\vspace{0.2cm}
+	Fig.2 : Schéma dans une configuration à 8 positions
+\end{center}
+
+\pa A chaque itération de l'algorithme, un déplacement va être effectué, cependant, les déplacements exposés ci-dessus ne permettent pas de conserver l'aire initiale du polygone. Nous avons donc pensé à combiner ce déplacement avec une contraction (ou décontraction) du polygone, afin qu'il possède la même aire que le polygone initial. Ainsi, nous pouvons garder la malléabilité au niveau du déplacement le tout en gardant une aire constante. 
+
+
+
+
+% --------------------------------------------------------
+
+% ---------------------- DESSIN --------------------------
+\begin{center}
+	\begin{picture} (150,150) (35,0) 
+	\setlength{\unitlength}{2cm}
+	\thicklines
+	\put(0, 0){\line(0, 1){1}}
+	\put(0,1){\line(3, 1){3}}
+	\put(0, 0){\line(3, -1){3}}
+	\put(3, -1){\line(2, 3){1}}
+	\put(3, 2){\line(2, -3){1}}
+	\put(4,-1) {\LARGE{$\Omega$}}
+
+
+	\put(0,1){\color{red}\line(1, 1){1}}
+	\put(0, 0){\color{red}\line(1, -1){1}}
+	\put(1, -1){\color{red}\line(2, 3){1}}
+	\put(1, 2){\color{red}\line(2, -3){1}}
+	
+	% Placement des vecteurs 
+	\put(3,2) {\color{red}\vector(-1,0) {2}}
+	\put(3,-1) {\color{red}\vector(-1,0) {2}}
+	\put(4,0.5) {\color{red}\vector(-1,0) {2}}
+
+	\end{picture}
+	\\
+	\vspace{3cm}
+	Fig.3: Contraction d'un polygone (En noir le polygone initial, et en rouge le polygone contracté)
+\end{center}
+\vspace{0.5cm}
+
+% --------------------------------------------------------
 
 
 \newpage
