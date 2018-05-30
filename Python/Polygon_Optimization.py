@@ -230,6 +230,8 @@ def mainloopContraction(polygon, nbTest, nbIteration, r, area, values, eng) :
 #                       et exploitation des symétries
 # ===============================================================================
 
+# Il reste a corriger les éventuels cas dégénerés, lorsque le polygone
+# risque de perdre son caractère convexe
 def bestValueContraction_Symetry(polygon, area, initValue, i, nbTest, r, impair, pointe, eng) :
     # Si l'indice du sommet est trop grand, c'est qu'il y a une erreur
     N = polygon.N
@@ -303,8 +305,6 @@ def bestValueContraction_Symetry(polygon, area, initValue, i, nbTest, r, impair,
             return [L[indexMax], indexMax]
         return [initValue, 'o']
 
-# Il reste a corriger les éventuels cas dégénerés, lorsque le polygone
-# risque de perdre son caractère convexe
 def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, eng) :
     """
     La fonction definie ici se applique l'algorithme de boucle avec contraction mais en
@@ -329,13 +329,14 @@ def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, e
     for i in sides :
         # On parcourt la liste des sommets possibles
         if i == int(n / 2) + 1 and impair :
-            val = bestValueContraction_Symetry(polygon, area, initValue, i, nbtest, r, impair, True, eng)
+            val = bestValueContraction_Symetry(polygon, area, initValue, i, nbTest, r, impair, True, eng)
         else :
-            val = bestValueContraction_Symetry(polygon, area, initValue, i, nbtest, r, impair, False, eng)
+            val = bestValueContraction_Symetry(polygon, area, initValue, i, nbTest, r, impair, False, eng)
 
         if val[0] > max[0] :
             max = val
             rank = i
+    print(max)
 
     #   Si la valeur maximum est atteinte pour un déplacement nul,
     #   on arrête la simulation
@@ -348,7 +349,7 @@ def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, e
     # Cas de si on manipule le sommet
     if max[1] == '+' :
         polygon.moveFreely(rank, Vector(1, 0), r)
-    if max[2] == '-' :
+    elif max[1] == '-' :
         polygon.moveFreely(rank, Vector(-1, 0) , r)
     else :
         # Vecteur directeur du déplacement gardé
@@ -374,6 +375,12 @@ def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, e
 # ===============================================================================
 #                       Mainloop avec inspiration circulaire
 # ===============================================================================
+
+def mainloopCirc(polygon, nbIteration, dl, area, values, eng) :
+
+    return 0
+
+
 
 
 #   Idées à faire pour le developpement du code :
