@@ -16,7 +16,6 @@
 \usepackage{color}
 
 
-
 \definecolor{gray}{RGB}{100,100,100}
 \definecolor{basiccolor}{RGB}{0, 43, 54}
 \definecolor{keywordscolor1}{RGB}{88, 110, 117}
@@ -74,7 +73,7 @@
 
 
 \newcommand{\myenv}{(\raisebox{0pt}{\mygraphic{.6em}})}
-\newcommand{\pa}{\hspace{0.5cm}}
+\newcommand{\pa}{\hspace{1cm}}
 
 \begin{document}
 
@@ -94,6 +93,7 @@ Cette recherche se place indéniablement dans un vaste domaine d'étude, au conf
 
 % PARTIE 1 
 \part{Mise en place de l'étude}
+
 Notre étude sera réalisée en deux dimensions, dans le plan $\mathbb{R}^2$. Par ailleurs, une chambre sera modélisée par un polygone. Nous allons principalement nous intéresser aux pentagones (polygones à 5 côtés), cependant d'autres polygones seront également testés pour mener à bien ce travail. \\
 Cette étude n'est rien d'autre qu'un problème d'optimisation. En effet, nous chercherons à maximiser le critère: température moyenne d'une pièce dans \textbf{son régime stationnaire}. \\ Pour fixer les notations, à l'avenir, la température à la position repérée par le vecteur $x$ de la chambre $\Omega$ au temps $t$ sera notée $u(x,t)$. De plus, la température moyenne de la pièce s'exprime facilement par  $ \frac {1}{|\Omega|}\int_{\Omega} u(x,t) dx $ ou $|\Omega|$ représente l'aire de la chambre.\\
 Par ailleurs, nous considérerons que la température dans la pièce $\Omega$ est pilotée par l'équation aux dérivées partielles: 
@@ -114,9 +114,7 @@ Le problème est désormais bien posé. Il faut cependant garder à l'esprit que
 
 
 % PARTIE 2
-\part{Etude préliminaire: le cas des triangles}
-
-%SECTION 1 
+\part{Étude préliminaire: le cas des triangles}
 \section*{I - Cadre général de l'étude}
 On va considérer le problème simple d'une pièce triangulaire dans toute cette partie. On considère aussi une application $T_S$ qui a une valeur $x$ va associer un triangle d'aire $S$ et de côtés de longueur $x$ et $1$. La fonction $u_\Omega$ correspond à la solution de l'équation précédente sur le domaine $\Omega$, qui est dans le cas ici présent un triangle. On va noter $M$ la fonction qui renvoie la moyenne de $u_\Omega$ sur $\Omega$ telle que $M(\Omega) = \frac {1}{|\Omega|}\int_{\Omega} u_\Omega(x,t) dx $. \\
 Désormais, on pose $ F = M\circ T $. Le problème formulé ci-dessus revient donc à chercher le $x$ qui maximise la fonction F, on se ramène ainsi à un problème d'optimisation de $\mathbb{R}$ dans $\mathbb{R}$. \\
@@ -162,6 +160,7 @@ end
 
 %SECTION 2
 \section*{II - Première étude : Conditions simples}
+
 On va considérer ici des conditions relativement simples. Premièrement, on se place en régime stationnaire, c'est à dire que le terme $\frac{\partial u}{\partial t}$ est nul. De plus, on fixe une fonction de chauffage nulle. Enfin, les conditions aux limites sont fixées telles que le côté de longueur fixée $1$ soit traversé par un flux positif (modélisant un chauffage), et les deux autre côtés sont fixés à une température extérieure $T_0$ (dans le cas présent fixé à 10).
 \vspace{3cm}
 \begin{center}
@@ -311,74 +310,117 @@ Procédons à quelques remarque. Tout d'abord, on observe que la figure "optimis
 \newpage
 
 
-\part{Cas général du pentagone: premier algorithme}
+\part{Déplacement d'un point du polygone à aire constante}
+\section*{I - Un premier déplacement}
 
-\section*{I - Stabilité de la famille par petits déplacements}
-
-\pa Nous avons explicité dans la partie 1 les caractéristiques des polygones qui nous intéressent. Par ailleurs, nous avons relevé à quel point ces caractéristiques étaient contraignantes. Nous cherchons une méthode à partir d'un polygone correspondant au cahier des charges de générer, par petits déplacements des sommets, d'autres polygones le respectant encore. Cette méthode pourrait ensuite être utilisée dans un algorithme itératif pour trouver des (nous n'avons pas encore dégagé de résultat sur l'existence d'un polygone optimal unique) chambres optimales. \\ 
-\pa L'idée générale de la méthode repose sur le déplacement des sommets du polygone en conservant l'aire du polygone. Pour cela, nous allons déplacer un sommet sur la droite parallèle à celle passant par les deux sommets voisins. Sur le schéma, nous avons représenté cette droite en rouge. L'idée derrière ce déplacement est d'exploiter la formule sur l'aire d'une triangle : $\mathcal{A} = \frac{\mathcal{B}.h}{2}$ , ou $\mathcal{B}$ est la base du triangle et $h$ est la hauteur du triangle. En suivant cette méthode, nous conservons la hauteur et la base du triangle considéré par l'algorithme et par conséquent son aire. \\
-\pa En excluant la possibilité de déplacer les deux sommets correspondant au mur relatif au flux entrant, nous avons alors explicité des petits déplacements stables pour la famille de polygones considérée. \\
-Dans la suite, nous dirons en parlant des sommets du mur modélisant le radiateur qu'ils sont \textbf{fixes}, et que les autres sont \textbf{mobiles}.
+\pa L'idée général de l'algorithme repose sur le déplacement successif des différents points du polygone et cela en conservant l'aire totale du polygone. Pour cela on va déplacer un sommet sur la droite passant par les deux sommets voisins du sommet. Sur le schéma, nous avons représenté cette droite en rouge. L'idée derrière ce déplacement est d'exploiter la formule sur l'aire d'une triangle : $\mathcal{A} = \frac{\mathcal{B}.h}{2}$ , ou $\mathcal{B}$ est la base du triangle et $h$ est la hauteur du triangle. En déplacant les points de cette façon, nous pouvons conserver la hauteur et la base du triangle considéré par l'algorithme et par conséquent l'aire du triangle. \\
 
 \vspace{3.5cm}
 \begin{center}
-	\begin{picture} (100,100) (20,0) 
-	\setlength{\unitlength}{2.5cm}
-	\thinlines
-	\put(0,0) {\color{gray} \line(-2,3) {1}}
-	\put(-1,1.5) {\color{gray} \line(2,1) {1}}
-	\thicklines
-	\put(0,0){\line(-1,1){1}}
-	\put(-1,1){\line(1,1){1}}
-	\put(0,0){\line(1,0){2}}
-	\put(0,-0.5) {\color{red} \line(0,1) {3}}
-	\put(-1,-0.5) {\color{red} \line(0,1) {3}}
-	\put(0,2) {\line(1,0) {2}}
-	\put(2,2) {\line(1,-1) {1}}
-	\put(2,0) {\line(1,1) {1}}
-	\put(-1,1) {\vector(0,1) {0.48}}
-	\put(-1,1.5){\circle*{0.05}}
-	\put(-1,1){\circle*{0.05}}
-	\put(-1.2,1.5){$A'$}
-	\put(-1.2,1){$A$}
-	\put(0.95,1) {$\Omega$}
-	\end{picture}
-	\\
-	\vspace{1.5cm}
-	Figure : Déplacement du sommet $A$ selon l'algorithme
+\begin{picture} (100,100) (20,0) 
+\setlength{\unitlength}{2.5cm}
+\thinlines
+\put(0,0) {\color{gray} \line(-2,3) {1}}
+\put(-1,1.5) {\color{gray} \line(2,1) {1}}
+\thicklines
+\put(0,0){\line(-1,1){1}}
+\put(-1,1){\line(1,1){1}}
+\put(0,0){\line(1,0){2}}
+\put(0,-0.5) {\color{red} \line(0,1) {3}}
+\put(-1,-0.5) {\color{red} \line(0,1) {3}}
+\put(0,2) {\line(1,0) {2}}
+\put(2,2) {\line(1,-1) {1}}
+\put(2,0) {\line(1,1) {1}}
+\put(-1,1) {\vector(0,1) {0.48}}
+\put(-1,1.5){\circle*{0.05}}
+\put(-1,1){\circle*{0.05}}
+\put(-1.2,1.5){$A'$}
+\put(-1.2,1){$A$}
+\put(0.95,1) {$\Omega$}
+\end{picture}
+\\
+\vspace{1.5cm}
+Figure : Déplacement du sommet $A$ selon l'algorithme
 \end{center}
 \vspace{0.5cm}
+\pa L'idée est ensuite de faire varier les différents points du Polygone selon le même schéma de déplacement. Toutefois, la manière de choisir les points à déplacer et les critères d'arrêt sont encore à déterminer.
+\newpage
+
+\section*{II - Un deuxième déplacement plus souple} 
+\pa L'algorithme présenté précédemment permet d'optimiser une polygone de façon relativement limitée, car les déplacements sont extrêmement spécifiques afin de conserver l'aire. Il peut alors être intéressant de chercher à trouver une méthode de déplacement des points qui permet une plus grande liberté dans le mouvement. \\
+
+\par Contrairement à la méthode précédente, l'idée est ici de s'écarter de la notion de déplacement avec conservation de l'aire du polygone. Pour gagner en souplesse de déplacement l'idée va être d'essayer plusieurs déplacement élémentaires sur chacun des sommets amovibles pour les tester tous et trouver le meilleur déplacement. Dans l'algorithme précédente nous restions sur une droite afin de conserver l'aire du polygone, mais cette fois-ci nous allons tester des déplacements répartis sur un cercle de rayon fixé autour du point à déplacer (voir Fig.1) \\
+% ---------------------- DESSIN --------------------------
+\vspace{1.5cm}
+\begin{center}
+	\begin{picture} (150,150) (35,0) 
+	\setlength{\unitlength}{2cm}
+
+	\thicklines
+	\put(0,0){\line(0, 1){2}}
+	\put(0,0){\line(5,-2){2}}
+	\put(0,2) {\line(5,2) {2}}
+	\put(2,2.8) {\line(1,-1) {1.8}}
+	\put(2,-0.8) {\line(1,1) {1.8}}
+	\put(0.95,1) {\LARGE{$\Omega$}}
+	\put(3.8, 1){\color{red}\circle{100}}
+	\put(3.8, 1){\color{black}\circle*{0.1}}
+	\put(3.9, 0.9){$A$}
+	\end{picture}
+	\\
+	\vspace{2cm}
+	Fig.1 : Zone de déplacement du sommet $A$ pour l'algorithme
+\end{center}
+\vspace{0.5cm}
+\par Afin de discrétiser ce cercle, nous allons choisir un nombre de positions (ou directions) équitablement réparties sur le cercle. L'algorithme va ainsi pouvoir essayer toutes les configurations possibles sur le cercle afin de choisir le déplacement qui maximise la valeur moyenne. \\
+\newpage
+\begin{center}
+	\includegraphics[scale=0.2]{positions_circle.png}\\
+	\vspace{0.2cm}
+	Fig.2 : Schéma dans une configuration à 8 positions
+\end{center}
+\vspace{0.1cm}
+\par A chaque itération de l'algorithme, un déplacement va être effectué, cependant, les déplacements exposés ci-dessus ne permettent pas de conserver l'aire initiale du polygone. Nous avons donc pensé à combiner ce déplacement avec une contraction (ou décontraction) du polygone, afin qu'il possède la même aire que le polygone initial. Ainsi, nous pouvons garder la malléabilité au niveau du déplacement le tout en gardant une aire constante. La contraction du polygone est réalisée de façon assez naïve en déplaçant les points jusqu'à ce que l'on obtienne l'aire souhaitée (voir Fig.3). La contraction doit aussi obligatoirement se faire selon l'axe des abscisses car on doit absolument garder la longueur du mur modélisant le radiateur. \\
+
+% --------------------------------------------------------
+
+% ---------------------- DESSIN --------------------------
+\begin{center}
+	\begin{picture} (150,150) (35,0) 
+	\setlength{\unitlength}{2cm}
+	\thicklines
+	\put(0, 0){\color{blue}\line(0, 1){1}}
+	\put(0,1){\line(3, 1){3}}
+	\put(0, 0){\line(3, -1){3}}
+	\put(3, -1){\line(2, 3){1}}
+	\put(3, 2){\line(2, -3){1}}
+	\put(4,-1) {\LARGE{$\Omega$}}
+
+
+	\put(0,1){\color{red}\line(1, 1){1}}
+	\put(0, 0){\color{red}\line(1, -1){1}}
+	\put(1, -1){\color{red}\line(2, 3){1}}
+	\put(1, 2){\color{red}\line(2, -3){1}}
+	
+	% Placement des vecteurs 
+	\put(3,2) {\color{red}\vector(-1,0) {2}}
+	\put(3,-1) {\color{red}\vector(-1,0) {2}}
+	\put(4,0.5) {\color{red}\vector(-1,0) {2}}
+
+	\end{picture}
+	\\
+	\vspace{3cm}
+	Fig.3 : Contraction selon l'algorithme
+\end{center}
+
 
 \newpage
 
-\section*{II - Implémentation d'un algorithme sous Python} 
-\pa L'idée générale est de créer un objet sous python qui représente un polygone. Nous avons opté pour la création d'une classe appelée Polygon, qui est constituée d'une liste de points indépendants, qui peuvent être bougés au gré de nos envies. 
-\\
-Tout d'abord, nous disposons, via MATLAB, d'un outil puissant et efficace de résolution des équations différentielles: la PDE toolbox. Cependant, un inconvénient de cet outil est le temps d'exécution qui est élevé. Appelons \textit{calcul\_statio} le programme qui renvoie la valeur de la température moyenne de la chambre en régime stationnaire.
-
-\par Présentons schématiquement les idées générales de l'algorithme \textbf{itératif} que nous avons choisi : \vspace{0.3cm}
-
-\begin{itemize}
-	\item L'algorithme prend en entrée les coordonnées du polygone initial dans le bon ordre ainsi que le pas $p$ de déplacement;
-	\item On entre dans la boucle: tous les sommets mobiles du polygones sont parcourus;
-	\item Pour chaque sommet on teste les deux petits déplacements stables symétriques d'amplitude p: pour chaque déplacement on applique \textit{calcul\_statio}
-	\item On garde en mémoire le déplacement (éventuellement nul si pas d'amélioration) et la valeur de la température moyenne associée. 
-	\item on ressort de la boucle avec le meilleur déplacement et le sommet associé
-	\item On applique le déplacement au polygone, puis on recommence (il s'agit bien d'un procédé itératif)
-\end{itemize}
-\vspace{0.3cm}
 
 
-\par 
-\section*{III - Remarques et améliorations}
-Premièrement, nous pouvons remarquer que cet algorithme met en jeu une connexion entre python ou nous gérons les données relatives aux polygones et MATLAB pour faire les calculs. Cette connexion assez technique sur le plan purement informatique est couteuse en temps. Nous envisageons donc pour la suite de notre projet d'éventuellement trouver un module sur python pour y mener l'ensemble du processus. \\
-Par ailleurs, la plus grande partie du temps d'exécution de l'algorithme a pour origine le maillage de la figure. Cette étape est essentielle pour la résolution d'une équation aux dérivées partielles. Pour optimiser notre algorithme, dans la mesure ou chaque étape n'engendre qu'une petite modification du polygone, nous pourrions éventuellement nous tourner vers des méthodes de remaillage efficaces. \\
-Lorsque nous faisons des petits déplacements des sommets, il faut faire attention à ne pas casser "la convexité" de la figure, ce qui pourrait passer aussi par un cas singulier où notre polygone aurait un coté en moins. Nous allons ajouter un test à notre algorithme pour nous assurer qu'il n'y est pas de problème à cause de ces cas limites. \\
-Ensuite, pour améliorer la complexité de l'algorithme, nous envisageons d'adapter la méthode du gradient et de chercher à identifier des directions privilégies.\\
-Ensuite, une grande limitation de cet algorithme est que la valeur du pas influe grandement sur le résultat final. Contrairement à ce que nous pourrions penser naivement un pas petit n'améliore pas nécessairement la qualité du polygone finale (on peut rester bloquer sur un maximum local).
+
 
 \newpage
-\section*{IV - Résultats de cet algorithme }
 
 Regardons sur un exemple le résultat de l'algorithme
 
@@ -403,96 +445,150 @@ Pour les semaines à venir, nous allons essayer d'expliciter le profil des temp�
 
 
 \newpage
-\part{Un Nouvel Algorithme} 
-\pa L'algorithme présenté précédemment permet d'optimiser une polygone de façon relativement limitée, car les déplacements sont extrêmement spécifiques afin de conserver l'aire. Il peut alors être intéressant de chercher à trouver une méthode de déplacement des points qui permet une plus grande liberté dans le mouvement. 
+\part{Implémentation des Algorithmes}
 
-\section*{I - Description de la méthode}
 
-\pa Contrairement à la méthode précédente, l'idée est ici de s'écarter de la notion de déplacement avec conservation de l'aire du polygone. Pour gagner en souplesse de déplacement l'idée va être d'essayer plusieurs déplacement élémentaires sur chacun des sommets amovibles pour les tester tous et trouver le meilleur déplacement. Dans l'algorithme précédente nous restions sur une droite afin de conserver l'aire du polygone, mais cette fois-ci nous allons tester des déplacements répartis sur un cercle de rayon fixé autour du point à déplacer (voir Fig.1)
-% ---------------------- DESSIN --------------------------
-\vspace{1.5cm}
-\begin{center}
-	\begin{picture} (150,150) (35,0) 
-	\setlength{\unitlength}{2cm}
 
-	\thicklines
-	\put(0,0){\line(0, 1){2}}
-	\put(0,0){\line(5,-2){2}}
-	\put(0,2) {\line(5,2) {2}}
-	\put(2,2.8) {\line(1,-1) {1.8}}
-	\put(2,-0.8) {\line(1,1) {1.8}}
-	\put(0.95,1) {\LARGE{$\Omega$}}
-	\put(3.8, 1){\color{red}\circle{100}}
-	\put(3.8, 1){\color{black}\circle*{0.1}}
-	\put(3.9, 0.9){$A$}
-	\end{picture}
-	\\
-	\vspace{3cm}
-	Fig.1 : Zone de déplacement du sommet $A$ pour l'algorithme
-\end{center}
-\vspace{0.5cm}
-
-\pa Afin de discrétiser ce cercle, nous allons choisir un nombre de positions (ou directions) équitablement réparties sur le cercle. L'algorithme va ainsi pouvoir essayer toutes les configurations possibles sur le cercle afin de choisir le déplacement qui maximise la valeur moyenne. \par
+\section*{I - Structure générale de l'algorithme}
+\pa L'algorithme implémenté est un algorithme naïf qui se contente de bouger les différents points du polygone et de trouver le meilleur déplacement pour maximiser la température moyenne à chaque itération. \\
 
 \begin{center}
-	\includegraphics[scale=0.2]{positions_circle.png}\\
+	\includegraphics[scale=0.7]{algo.png}\\
 	\vspace{0.2cm}
-	Fig.2 : Schéma dans une configuration à 8 positions
+	Fig 5.1 : Schéma simple de l'algorithme d'optimisation du polygone\\
 \end{center}
+\vspace{0.1cm}
 
-\pa A chaque itération de l'algorithme, un déplacement va être effectué, cependant, les déplacements exposés ci-dessus ne permettent pas de conserver l'aire initiale du polygone. Nous avons donc pensé à combiner ce déplacement avec une contraction (ou décontraction) du polygone, afin qu'il possède la même aire que le polygone initial. Ainsi, nous pouvons garder la malléabilité au niveau du déplacement le tout en gardant une aire constante. 
+\section*{II - Implémentation d'un algorithme sous Python} 
+\par L'idée générale est de créer un objet sous python qui représente un polygone. Nous avons opté pour la création d'une classe appelée Polygon, qui est constituée d'une liste de points indépendants, qui peuvent être bougés au gré de nos envies. 
+\\
+\par Tout d'abord, nous disposons, via MATLAB, d'un outil puissant et efficace de résolution des équations différentielles: la PDE toolbox. Cependant, un inconvénient de cet outil est le temps d'exécution qui est élevé. Appelons \textit{calcul\_statio} le programme qui renvoie la valeur de la température moyenne de la chambre en régime stationnaire.\\
 
+\par Présentons schématiquement les idées générales de l'algorithme \textbf{itératif} que nous avons choisi : \vspace{0.3cm}
 
+\begin{itemize}
+	\item L'algorithme prend en entrée les coordonnées du polygone initial dans le bon ordre ainsi que le pas $p$ de déplacement;
+	\item On entre dans la boucle: tous les sommets mobiles du polygones sont parcourus;
+	\item Pour chaque sommet on teste les  petits déplacements stables : pour chaque déplacement on applique \textit{valueIntegral} au polygone
+	\item On garde en mémoire le déplacement (éventuellement nul si pas d'amélioration) et la valeur de la température moyenne associée. 
+	\item On ressort de la boucle avec le meilleur déplacement et le sommet associé
+	\item On applique le déplacement au polygone, puis on recommence (il s'agit bien d'un procédé itératif). Si plus aucun déplacement ne permet d'augmenter la valeur moyenne, on arrête l'algorithme
+\end{itemize}
+\par En termes de représentation informatique, nous avons décidé de modéliser les polygone par une classe $Polygon$ sous Python, qui est représentée par une liste de points qui constituent les différents sommets. Ces différents points peuvent être modifiés grâce à des méthodes qui agissent sur cette instance de la classe $Polygon$. \\
 
+\section*{III - Remarques et améliorations}
 
-% --------------------------------------------------------
-
-% ---------------------- DESSIN --------------------------
-\begin{center}
-	\begin{picture} (150,150) (35,0) 
-	\setlength{\unitlength}{2cm}
-	\thicklines
-	\put(0, 0){\line(0, 1){1}}
-	\put(0,1){\line(3, 1){3}}
-	\put(0, 0){\line(3, -1){3}}
-	\put(3, -1){\line(2, 3){1}}
-	\put(3, 2){\line(2, -3){1}}
-	\put(4,-1) {\LARGE{$\Omega$}}
-
-
-	\put(0,1){\color{red}\line(1, 1){1}}
-	\put(0, 0){\color{red}\line(1, -1){1}}
-	\put(1, -1){\color{red}\line(2, 3){1}}
-	\put(1, 2){\color{red}\line(2, -3){1}}
-	
-	% Placement des vecteurs 
-	\put(3,2) {\color{red}\vector(-1,0) {2}}
-	\put(3,-1) {\color{red}\vector(-1,0) {2}}
-	\put(4,0.5) {\color{red}\vector(-1,0) {2}}
-
-	\end{picture}
-	\\
-	\vspace{3cm}
-	Fig.3: Contraction d'un polygone (En noir le polygone initial, et en rouge le polygone contracté)
-\end{center}
-\vspace{0.5cm}
-
-% --------------------------------------------------------
-
+\pa Premièrement, nous pouvons remarquer que cet algorithme met en jeu une connexion entre python ou nous gérons les données relatives aux polygones et MATLAB pour faire les calculs. Cette connexion assez technique sur le plan purement informatique est couteuse en temps. Nous envisageons donc pour la suite de notre projet d'éventuellement trouver un module sur python pour y mener l'ensemble du processus. \\
+\par Par ailleurs, la plus grande partie du temps d'exécution de l'algorithme a pour origine le maillage de la figure. Cette étape est essentielle pour la résolution d'une équation aux dérivées partielles. Pour optimiser notre algorithme, dans la mesure ou chaque étape n'engendre qu'une petite modification du polygone, nous pourrions éventuellement nous tourner vers des méthodes de remaillage efficaces. \\
+\par Lorsque nous faisons des petits déplacements des sommets, il faut faire attention à ne pas casser "la convexité" de la figure, ce qui pourrait passer aussi par un cas singulier où notre polygone aurait un coté en moins. Nous allons ajouter un test à notre algorithme pour nous assurer qu'il n'y est pas de problème à cause de ces cas limites. \\
+\par Ensuite, pour améliorer la complexité de l'algorithme, nous envisageons d'adapter la méthode du gradient et de chercher à identifier des directions privilégies.\\
+\par Ensuite, une grande limitation de cet algorithme est que la valeur du pas influe grandement sur le résultat final. Contrairement à ce que nous pourrions penser naivement un pas petit n'améliore pas nécessairement la qualité du polygone finale (on peut rester bloquer sur un maximum local).\\
+\par A l'heure actuelle, nous n'avons pas pris en compte les cas difficiles, et nous préférons partir de formes polygonales relativement concaves afin d'arriver à la solution sans que les déplacement ne rendent le polygone convexe. Dans certains cas, le polygone va "croiser" ses arêtes, et générer une erreur. \\
+\par Les figures polygonales très dendritiques sont aussi problématiques, car la résolution de l'équation différentielle sur des zones avec un très faible angle explosent et donnent des résultats aberrants. 
 
 \newpage
 
-\pa 
+\part{Résultats des algorithmes}
+
+
+\section*{I - A quoi nous attendons nous ?}
+
+\pa A première vue il est assez difficile de prévoir la forme des polygones optimaux même si on peut éventuellement "intuiter" le résultat en espérant trouver des figures régulières (polygones réguliers). Pour se faire une vague idée des résultats, nous avons réalisé une sorte de classification des polygones, en générant une vingtaine de polygones de même aire et de les associer à une couleur proportionnelle à la valeur de leur température moyenne. Nous obtenons ainsi les résultats suivants : \\
+
+\begin{center}
+	\includegraphics[scale=0.9]{Figure_3.png}
+	Fig : Carte de polygones de même aire (Les polygones avec une haute valeur moyenne sont coloriés en rouge et en bleu si elle est basse)\\
+\end{center}
+
+\par De cette carte, on peut vaguement tirer quelques informations. Par exemple, il semble que les polygones "massés" autour du mur chauffé semblent posséder une meilleure valeur de température moyenne. De la même façon les figures longues, fines, assez éloignées du mur chauffé semblent posséder une valeur moyenne plus basse. Pour synthétiser cette vision, on pourrait dire que les figures les plus optimisées sont celles qui diminuent au maximum la distance de chacun des points intérieur au mur chauffé. Il semblerait aussi avec ce raisonnement que les figures symétriques soient plus optimisées.\\
+
+\section*{II - Cas des déplacements sur les droites parallèles}
+
+\pa Moralement on s'attend lors d'une optimisation à ce que les figures deviennent plus symétriques et tassées proche du mur. C'est effectivement ce que l'on distingue lors des simulations avec la première méthode de déplacement. Toutefois cela n'est pas frappant à cause du faible nombre d'itérations.
+\begin{center}
+	\includegraphics[scale=0.7]{test50.png}\\
+	\vspace{0.2cm}
+	Fig 5.1 : Optimisation d'un polygone avec la première méthode pour 50 itérations (En rouge le polygone optimisé, et en bleu le polygone initial)\\
+\end{center}
+
+\par On constate bien une amélioration globale de la température moyenne après l'optimisation, cependant ce n'est pas très satisfaisant pour deux raisons majeures : \\
+\begin{itemize}
+	\item L'algorithme se retrouve très vite bloqué par sa faible liberté de mouvement
+	\item La forme optimisée est trop dépendante de la figure initiale choisie, et dépend énormément du pas de déplacement choisi
+\end{itemize}
+
+\par Ce sont en partie ces constats qui nous ont poussé à chercher d'autres méthodes de déplacement des points, afin de gagner une plus grande liberté en terme de déplacement.\\
+\newpage 
+
+\section*{III - Cas des déplacements améliorés}
+
+\pa La plus grande liberté de mouvement donnée par la méthode utilisée nous laisse espérer que les solutions données par cet algorithme seront meilleures que celles données par l'algorithme précédent. Afin de constater cela, nous allons réaliser une comparaison sur deux exemples de polygone différents, mais de même aire pour 50 itérations :  \\
+
+\begin{center}
+
+	\includegraphics[scale=0.45]{resultat_souple_2.png}
+	\includegraphics[scale=0.45]{resultat_souple_4.png}\\
+	Fig : En jaune le polygone initial, et en rouge le polygone optimisé (voir Annexe pour les détails)
+\end{center}
+
+\vspace{2cm}
+
+\par La conjecture émise dans la première section semble bien s'appliquer au vue de la première optimisation présentée ci-dessus. La deuxième est effectivement moins flagrante. \\ 
+
+\par Il est cependant assez difficile de comparer les deux méthodes sérieusement à partir de quelques observations. Nous avons donc réalisé quelques comparaisons sur des polygones, mais étant donné le temps de simulation, nous avons du nous contenter d'une dizaine de comparaisons. \\
+
+\newpage
+\begin{center}
+	\textit{20 itérations}\\
+	\includegraphics[scale=0.45]{comp1.png}\\
+	\textit{50 itérations}\\
+	\includegraphics[scale=0.45]{comp2.png}\\
+	Fig : En jaune le polygone initial, et en rouge le polygone optimisé avec la méthode 1, et en bleu avec la méthode 2
+\end{center}
+
+\par On constate clairement une nette avance de la seconde méthode. La méthode 1 étant très limitée en terme de liberté de mouvement, elle n'a pas permis d'optimiser correctement la figure montrée dans la simulation ci-dessus. \\ 
+
+\par Cet algorithme semble bien plus satisfaisant que le premier dans la mesure ou pour un même nombre d'itérations la figure est largement plus optimisée.
+
+
+
+\section*{IV - Exploitation des symétries}
+
+\pa Comme l'on s'attend plutôt a ce que les figures optimales soient symétriques, il peut être intéressant de partir de figures déjà symétriques et d'exploiter la symétrie du polygone pour le déplacer avec la méthode de nôtre choix, mais en conservant la symétrie. Les avantages sont multiples si l'on tient compte de cela. Tout d'abord, on réduit par 2 le nombre de calculs de température moyenne ce qui diminue drastiquement le temps de simulation. D'autre part, il y a une plus rapide convergence de l'algorithme vers un polygone optimal lorsque l'on tient compte des symétrie. \\ 
+
+\par En reprenant le polygone de l'exemple précédent, et en appliquant une fois l'algorithme basique et une fois en exploitant les symétries avec les mêmes paramètres, on obtient les résultat suivants : \\ 
+
+\begin{center}
+	\includegraphics[scale=0.45]{symetrieAlgo.png}\\
+	Fig : Exploitation des symétries (18 itérations, Valeur : 1763)\\
+	\includegraphics[scale=0.45]{comp3.png}\\
+	Fig : Non Exploitation des symétries (49 itérations, Valeur : 1733)
+
+\end{center}
+
+
+
+
+
+
+
+
+
+
+
+
+% --------------------------------------------------------
+\newpage
 
 
 
 
 
 % ///////////////////////////////////////////////////////
-%						Partie Annexes
+%						        Partie Annexes
 % ///////////////////////////////////////////////////////
 
-\section*{Annexes}
+\part*{Annexes}
 
 %========================================
 % Classe VECTOR
@@ -948,158 +1044,5 @@ def naiveMainloop(polygon, dl, nbTest, nbIteration, values, eng) :
 
 \newpage
 \section*{Modules complémentaires}
-
-Module pour calculer l'aire d'un polygone : 
-
-\begin{lstlisting}[language=Python,frame=single,caption=]
-
-"Aire d'un polygone"
-import math
-
-def decoupe_triangles(poly): #poly = liste des coord
-    resultat = []
-    i = 0
-    for i in range(len(poly) -2):
-        triangle = [poly[0], poly[i+1], poly[i+2]]
-        i += 1
-        resultat.append(triangle)
-    return resultat
-
-
-def longueur_cotes(triangle): #liste coordonnée
-    resultat = [] #initialisation résultat
-    triangle.append(triangle[0])
-    for i in range(len(triangle) - 1):
-        cote = math.sqrt((triangle[i][0] - triangle[i + 1][0])**2 + (triangle[i][1] - triangle[i + 1][1])**2)
-        resultat.append(cote)
-    return resultat
-
-
-
-def calcul_aire(triangle_l): 
-	#entrée = longueurs cotés, sortie = aire du triangle
-    cote1, cote2, cote3 = triangle_l[0], triangle_l[1], triangle_l[2]
-    p = (cote1 + cote2 + cote3) / 2  #p est le demi périmètre du triangle
-    aire = math.sqrt (p * (p - cote1) * (p - cote2) * (p - cote3)) 
-    #formule du héron
-    return aire
-
-
-def aire_poly(poly): #entrée: liste coord du poly
-    List_triangles = decoupe_triangles(poly)
-    resultat = 0 #initialisation du résultat
-    for i in range(len(List_triangles)):
-        resultat += calcul_aire(longueur_cotes(List_triangles[i]))
-    return resultat
-
-\end{lstlisting}
-\vspace{2cm}
-
-Module pour calculer le degré de symétrie :
-
-\begin{lstlisting}[language=Python,frame=single,caption=]
-
-"""
-=================================================================================
-                      MODULE: degré de défaut de symétrie
-=================================================================================
-"""
-from aire_polygone import *
-#nécessite l'importe du module aire_polygone
-
-
-#-------------------------------------------------------------
-#Pour trouver le point de l'axe qui complète
-def sym(Poly_entree, pas, critere):
-
-    Poly_sortie = [[0, -1], [0, 1], [0.1, 4], [0.15, 0], [0.1, -4]]
-    for i in range(1000):
-        if abs(aire_poly(Poly_entree) - aire_poly(Poly_sortie)) > critere:
-            Poly_sortie[3][0] += pas
-    return Poly_sortie, aire_poly(Poly_entree), aire_poly(Poly_sortie)
-
-
-#-------------------------------------------------------------
-#renvoie le second plus grand terme d'une liste
-def second(L):
-    L.remove(max(L))
-    return max(L)
-
-#-------------------------------------------------------------
-#   teste le signe d'un nombre
-def signe(nbr):
-    if nbr >= 0:
-        return 1
-    else:
-        return -1
-
-
-#-------------------------------------------------------------
-def trouver_sommets(Poly, x): #renvoie les sommets concernés
-
-    sommets = []
-    Poly.append(Poly[0])
-    for i in range(len(Poly) - 1):
-        if signe(Poly[i][0] - x) != signe(Poly[i+1][0] - x):
-            sommets.append([Poly[i], Poly[i+1]])
-
-    #renvoie la borne xmax aussi
-    return sommets
-
-
-#-------------------------------------------------------------
-#   Renvoie le y lié à la droite passant par point 1 et ponit 2
-def interpol(point1, point2, x): #interpole l'ordonnée
-    if point1[0] > point2[0] :
-        point1, point2 = point2, point1
-    a = (point2[1] - point1[1]) / (point2[0] - point1[0])
-    b = point1[1] - a * point1[0]
-    return a * x + b
-
-
-#-------------------------------------------------------------
-#    Main function
-#    Renvoie le scalaire donnant le score de symétrie
-def deg_sym(Poly, pas):
-
-    #initialisation de la borne a pas depassée pour sortir du polygone
-    xborne = Poly[0][0]
-    for i in range(1, len(Poly)):
-        if Poly[i][0] > xborne:
-            xborne = Poly[i][0]
-    x = 0 #initialisation
-    xmax = -1 #initialisation
-    deg = 0
-
-
-    for i in range(int(xborne / pas)):
-
-        #incrémentation de l'abscisse le long de l'axe de symétrie
-        x += pas
-
-        # Précaution pour ne pas qu'on sorte du polygone
-        if x >= xborne: #teste si x est dans le polygone
-            break
-        if x >= xmax:
-            sommets_vois = trouver_sommets(Poly, x)
-            xmax =  second([sommets_vois[0][0][0],
-                            sommets_vois[0][1][0],
-                            sommets_vois[1][0][0],
-                            sommets_vois[1][1][0]])
-
-        yhaut = interpol(sommets_vois[0][0], sommets_vois[0][1], x)
-        ybas = interpol(sommets_vois[1][0], sommets_vois[1][1], x)
-
-        if signe(yhaut) != signe(ybas):
-            deg += abs(yhaut + ybas)
-        else:
-            deg += abs((yhaut - ybas) / 2)
-            
-    return deg
-
-
-\end{lstlisting}
-
-
 
 \end{document}

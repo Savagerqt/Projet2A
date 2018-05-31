@@ -5,16 +5,25 @@ import math as m
 import numpy as np
 import matlab.engine
 import time
+from colours_module import *
+
+eng = matlab.engine.start_matlab()
+L = linear_gradient("#0000FF", "#ff0000", n=1000)
 
 
-P = gen_poly(5)
-print(aire_poly(P))
-print(P)
-P = list2poly(P)
-P.contract(5, 0.01)
-print(P.area())
-P.plotPY('r')
+
+for k in range(25) :
+    # Génération du polygone
+    P = gen_poly(5)
+    P = list2poly(P)
+    P.contract(5, 0.01)
+    plt.subplot(5,5,k+1)
+    # On va calculer l'intégrale
+    value = max(0, int(P.valueIntegral(0, 0, eng)) - 800)
+    print(value)
+    P.plotPY(L[value])
 plt.show()
+
 
 
 

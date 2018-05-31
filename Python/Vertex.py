@@ -225,6 +225,8 @@ class Polygon :
                       self.vertices[(k + 1) % self.N].y],
                      color
                      )
+            plt.axis([-0.5, 5, -3, 3])
+            plt.axis('off')
 
         #plt.show()
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 =================================================================================
-                                 Main Algorithm
+                                 Main Algorithms
 =================================================================================
 """
 
@@ -196,6 +196,7 @@ def mainloopContraction(polygon, nbTest, nbIteration, r, area, values, eng) :
     plus libres que dans la version naive. On exploite ici des déplacements dans des
     directions circulaires, en combinant cela avec des contractions de la figure en entier
     """
+    refine = 1
     if nbIteration == 0 :
         print("Fin de la simulation")
         return nbIteration
@@ -212,18 +213,21 @@ def mainloopContraction(polygon, nbTest, nbIteration, r, area, values, eng) :
 
     #   Si la valeur maximum est atteinte pour un déplacement nul,
     #   on arrête la simulation
-    if max[1] == 'o' :
-        print("Fin de la simulation, plus d'amélioration")
-        return nbIteration
-
-    print(max)
-    print(rank)
-    # Sinon on bouge un sommet
-    dir = Vector(cos(2 * pi * max[1] / nbTest), sin(2 * pi * max[1] / nbTest))
-    polygon.moveFreely(rank, dir, r)
-    polygon.contract(area, .01)
-    values.append(max[0])
-    mainloopContraction(polygon, nbTest, nbIteration - 1, r, area, values, eng)
+    if max[1] == 'o' and refine < 5:
+        print("Refine number" + str(refine))
+        mainloopContraction(polygon, nbTest, nbIteration - 1, r/2, area, values, eng)
+    elif max[1] == 'o' and refine > 5:
+        print("Plus d'amélioration. Fin de l'algorithme")
+        return
+    else :
+        print(max)
+        print(rank)
+        # Sinon on bouge un sommet
+        dir = Vector(cos(2 * pi * max[1] / nbTest), sin(2 * pi * max[1] / nbTest))
+        polygon.moveFreely(rank, dir, r)
+        polygon.contract(area, .01)
+        values.append(max[0])
+        mainloopContraction(polygon, nbTest, nbIteration - 1, r, area, values, eng)
 
 # ===============================================================================
 #            Mainloop avec exploitation de la fonction de contraction
@@ -271,8 +275,8 @@ def bestValueContraction_Symetry(polygon, area, initValue, i, nbTest, r, impair,
                 copy = polygon.deepCopy()
                 dir = Vector(cos(n * 2 * pi / nbTest), sin(n * 2 * pi / nbTest))
                 dirSym = Vector(cos(n * 2 * pi / nbTest), -sin(n * 2 * pi / nbTest))
-                copy.moveFreely(i, dir, r)         # Déplacement du point i
-                copy.moveFreely(N - i + 1, dirSym, r)         # Déplacement du symétrique
+                copy.moveFreely(i, dir, r)                  # Déplacement du point i
+                copy.moveFreely(N - i + 1, dirSym, r)       # Déplacement du symétrique
                 copy.contract(area, .01)
                 L = L + [copy.valueIntegral(0, 0, eng)]
 
@@ -291,8 +295,8 @@ def bestValueContraction_Symetry(polygon, area, initValue, i, nbTest, r, impair,
             copy = polygon.deepCopy()
             dir = Vector(cos(n * 2 * pi / nbTest), sin(n * 2 * pi / nbTest))
             dirSym = Vector(cos(n * 2 * pi / nbTest), -sin(n * 2 * pi / nbTest))
-            copy.moveFreely(i, dir, r)         # Déplacement du point i
-            copy.moveFreely(N - i + 1, dirSym, r)         # Déplacement du symétrique
+            copy.moveFreely(i, dir, r)                  # Déplacement du point i
+            copy.moveFreely(N - i + 1, dirSym, r)       # Déplacement du symétrique
             copy.contract(area, .01)
             copy.plotPY('r')
             plt.show()
