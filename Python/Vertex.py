@@ -274,3 +274,11 @@ class Polygon :
             else :
                 for i in range(2, self.N) :
                     self.moveFreely(i, left, step)
+
+
+
+def list2poly(listeCoord) :
+    vertices = ()
+    for point in listeCoord :
+        vertices += (Vertex(point[0], point[1]),)
+    return Polygon(*vertices)

@@ -3,10 +3,10 @@
                       MODULE: degré de défaut de symétrie
 =================================================================================
 """
-from Vertex import *
 from aire_polygone import *
 from tkinter import *
 from numpy import *
+from random import *
 #nécessite l'importe du module aire_polygone
 
 
@@ -110,18 +110,118 @@ def deg_sym(Poly, nbr_pas):
 
     return - deg
 
-#poly0 = [[0, -1], [0, 1], [2, 2], [3, 0], [2, -2]]
-#poly1 = [[0, -1], [0, 1], [1, 1.5], [2, -7], [1, -5]]
-#poly2 = [[0, -2], [0, 2], [2, 3], [4, -14], [2, -10]]
-#poly3 = [[0, -1], [0, 1], [1, 1.5], [2, -4], [1, -1.5]]
-#poly4 = [[0, -1], [0, 1], [2, 1], [3,0], [2, -2]]
+poly0 = [[0, -1], [0, 1], [2, 2], [3, 0], [2, -2]]
+poly1 = [[0, -1], [0, 1], [1, 1.5], [2, -7], [1, -5]]
+poly2 = [[0, -2], [0, 2], [2, 3], [4, -14], [2, -10]]
+poly3 = [[0, -1], [0, 1], [1, 1.5], [2, -4], [1, -1.5]]
+poly4 = [[0, -1], [0, 1], [2, 1], [3,0], [2, -2]]
 
-# Exemple à decommenter
-#print(deg_sym(poly0, 500))
-#print(deg_sym(poly1, 500))
+
+Polya = [[0, -1], [0, 1], [0.7,1/2], [2,1], [1.1, -1]]
+polyb = [[0, -1], [0, 1], [1.4,0.5], [2,1], [1.8, -1.1]]
+#print(deg_sym(polya, 500))
+#print(deg_sym(polyb, 500))
 #print(deg_sym(poly2, 500))
 #print(deg_sym(poly3, 500))
+#print(deg_sym(poly4, 500))print(deg_sym(poly2, 500))
+#print(deg_sym(poly3, 500))
 #print(deg_sym(poly4, 500))
+
+#from scipy.spatial import ConvexHull
+#from numpy.random import random
+
+
+#def gen_poly():
+#    Poly = [[0, -1], [0, 1]]
+#    for i in range(3):
+#        point = [random(), random()]
+#        sign = random()
+#        if sign > 1/2:
+#            point[1] = -point[1]
+#        for i in range(2):
+#            point[i] = 2 * point[i]
+#        Poly.append(point)
+#        print('coucou')
+#        print(Poly)
+#        print('sstop')
+#    Poly = array(Poly)
+#    hull = ConvexHull(Poly)
+#    tab = hull.simplices
+#    print('sss')
+#    print(tab)
+#    n = tab.size//2
+#    sol = []
+#    for i in range(n):
+#        e = list(tab[i])
+#        sol.append(e)
+#    return sol
+#
+#
+#P = gen_poly()
+#print(P)
+
+
+
+def isobarycentre(Poly): #calcule l'isobarycentre d'un polygone
+    iso = [0, 0]
+    for ele in Poly: #somme les coordonnées
+        iso[0] += ele[0]
+        iso[1] += ele[1]
+    iso[0] = iso[0]/len(Poly)  #moyenne
+    iso[1] = iso[1]/len(Poly)
+    return iso
+
+#test
+#print(isobarycentre([[-1,-1], [-1,1], [1,1], [1,-1]]))
+
+def angle_to_point(point, centre):
+    distx = point[0] - centre[0]
+    disty = point[1] - centre[1]
+    res = arctan(disty / distx) #fonction de numpy
+    if distx < 0:
+        res += pi
+    return res * (180/pi)
+
+#test
+#centre = isobarycentre(Polya)
+#print(centre)
+#for ele in Polya:
+#    print(ele)
+#    print(angle_to_point(ele, centre))
+
+def tri_sommets(Poly):
+    centre_poly, angle = isobarycentre(Poly), []
+    for ele in Poly:
+        angle.append(angle_to_point(ele, centre_poly))
+    c = 360 #on l'initialise
+    for i in range(len(Poly)):  #on trace les sommets par angles au centre décroissant
+        for j in range(i, len(Poly)):
+            if angle[i] < angle[j]:
+                angle[i], angle[j] = angle[j], angle[i]
+                Poly[i], Poly[j] = Poly[j], Poly[i]
+    #test angle pas trop serré
+    while Poly[0] != [0, -1]: #permutation circulaire (pour corriger le problème des angles négatifs)
+        Poly.append(Poly[0])
+        Poly.pop(0)
+    return Poly
+
+
+def gen_poly(nbr_cote): #mettre aire en input et appliquer la fonction qui dilate contracte en sortie
+    Poly, n = [[0, -1], [0, 1]], nbr_cote
+    for i in range(nbr_cote - 2): #deux sommets sont déja fixés
+        point = [3*random(),3*random()] #3 est artificiel
+        if random() < 1/2:
+            point[1] = - point[1]
+        Poly.append(point)
+    sol = tri_sommets(Poly)
+    if sol[1] != [0, 1]: #Pour laisser le coté [0, -1], [0, 1] intact
+        return gen_poly(n)
+    return sol
+
+
+#P = gen_poly(5)
+#print(aire_poly(P))
+#print(P)
 
 def recup(Poly):
     x, y =  [], []
@@ -131,11 +231,22 @@ def recup(Poly):
     y.append(Poly[0][1])
     return x,y
 
-
-
 #from pylab import *
-#
-#x,y = recup(poly4)
+
+#x,y = recup(P)
 #plot(x, y)
-#title("Polygone 4")
+#title("Polygone généré")
+
+#S = [[0, -1], [0, 1], [0.3556098343875861, 0.830978510868241], [0.34594857271775314, 1.3383224239814502], [0.2907387378372759, -2.762830554089551]]
+#
+#x,y = recup(S)
+#plot(x, y)
+#title("Polygone généré")
+#
 #show()
+#
+#centre = isobarycentre(S)
+#print(centre)
+#for ele in S:
+#    print(ele)
+#    print(angle_to_point(ele, centre))

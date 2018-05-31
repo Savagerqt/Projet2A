@@ -336,15 +336,12 @@ def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, e
         if val[0] > max[0] :
             max = val
             rank = i
-    print(max)
 
     #   Si la valeur maximum est atteinte pour un déplacement nul,
     #   on arrête la simulation
     if max[1] == 'o' :
         print("Fin de la simulation, plus d'amélioration")
         return nbIteration
-
-    # Sinon on bouge un sommet
 
     # Cas de si on manipule le sommet
     if max[1] == '+' :
@@ -371,7 +368,6 @@ def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, e
     values.append(max[0])
     mainloopContraction_Symetry(polygon, nbTest, nbIteration - 1, r, area, values, eng)
 
-
 # ===============================================================================
 #                       Mainloop avec inspiration circulaire
 # ===============================================================================
@@ -379,9 +375,6 @@ def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, e
 def mainloopCirc(polygon, nbIteration, dl, area, values, eng) :
 
     return 0
-
-
-
 
 #   Idées à faire pour le developpement du code :
 #
