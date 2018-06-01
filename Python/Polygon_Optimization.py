@@ -81,15 +81,13 @@ def bestValueOS(polygon, initValue, i, nbTest, dl, eng) :
 #   Cette boucle naïve se contente de parcourir les sommets pour trouver le
 #   meilleur déplacement possible
 
-def naiveMainloop(polygon, dl, nbTest, nbIteration, values, eng) :
+def naiveMainloop(polygon, dl, nbTest, initValue, nbIteration, values, eng) :
     #   Conservation des données de la temperature moyenne pour chaque itération
     #   values est une liste vide destinée à conserver les valeurs de l'intégrale
 
     if nbIteration == 0 :
         print("Fin de la simulation")
         return 0
-
-    initValue = polygon.valueIntegral(0,0,eng)
 
     #   On cherche le petit déplacement qui maximise notre fonctionnelle
     #   de forme lors d'une itération de l'algorithme
@@ -114,7 +112,7 @@ def naiveMainloop(polygon, dl, nbTest, nbIteration, values, eng) :
     values.append(max[0])
 
     # Appel récursive de la fonction
-    naiveMainloop(polygon, dl, nbTest, nbIteration - 1, values, eng)
+    naiveMainloop(polygon, dl, nbTest, max[0], nbIteration - 1, values, eng)
 
 
 # ===============================================================================
@@ -187,10 +185,10 @@ def bestValueContraction(polygon, initValue, i, nbTest, r, eng) :
     indexMax = np.argmax(L)
     max = L[indexMax]
     if max > initValue :
-        return [L[indexMax], indexMax]
+        return [max, indexMax]
     return [initValue, 'o']
 
-def mainloopContraction(polygon, nbTest, nbIteration, r, area, values, eng) :
+def mainloopContraction(polygon, initValue, nbTest, nbIteration, r, area, values, eng) :
     """
     La fonction définie ici parcourt les sommets en effectuant des déplacements
     plus libres que dans la version naive. On exploite ici des déplacements dans des
@@ -200,8 +198,6 @@ def mainloopContraction(polygon, nbTest, nbIteration, r, area, values, eng) :
     if nbIteration == 0 :
         print("Fin de la simulation")
         return nbIteration
-
-    initValue = polygon.valueIntegral(0, 0, eng)
 
     max = [0,0]                                                     # Initialisation du maximum
     rank = 0
@@ -213,10 +209,8 @@ def mainloopContraction(polygon, nbTest, nbIteration, r, area, values, eng) :
 
     #   Si la valeur maximum est atteinte pour un déplacement nul,
     #   on arrête la simulation
-    if max[1] == 'o' and refine < 5:
-        print("Refine number" + str(refine))
-        mainloopContraction(polygon, nbTest, nbIteration - 1, r/2, area, values, eng)
-    elif max[1] == 'o' and refine > 5:
+
+    if max[1] == 'o':
         print("Plus d'amélioration. Fin de l'algorithme")
         return
     else :
@@ -227,7 +221,7 @@ def mainloopContraction(polygon, nbTest, nbIteration, r, area, values, eng) :
         polygon.moveFreely(rank, dir, r)
         polygon.contract(area, .01)
         values.append(max[0])
-        mainloopContraction(polygon, nbTest, nbIteration - 1, r, area, values, eng)
+        mainloopContraction(polygon, max[0], nbTest, nbIteration - 1, r, area, values, eng)
 
 # ===============================================================================
 #            Mainloop avec exploitation de la fonction de contraction
@@ -309,7 +303,7 @@ def bestValueContraction_Symetry(polygon, area, initValue, i, nbTest, r, impair,
             return [L[indexMax], indexMax]
         return [initValue, 'o']
 
-def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, eng) :
+def mainloopContraction_Symetry(polygon, initValue, nbTest, nbIteration, r, area, values, eng) :
     """
     La fonction definie ici se applique l'algorithme de boucle avec contraction mais en
     exploitant les symétrie de la figure. Le polygon donné en entrée doit bien évidemment
@@ -318,7 +312,6 @@ def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, e
     if nbIteration == 0 :
         return 0
     # Initialisation de la valeur de l'intégrale
-    initValue = polygon.valueIntegral(0, 0, eng)
     # On va devoir dissocier deux cas de figure selon que le polygon
     # possède un nombre de côtés pair ou impair
     n = polygon.N
@@ -370,7 +363,7 @@ def mainloopContraction_Symetry(polygon, nbTest, nbIteration, r, area, values, e
 
     polygon.contract(area, .01)
     values.append(max[0])
-    mainloopContraction_Symetry(polygon, nbTest, nbIteration - 1, r, area, values, eng)
+    mainloopContraction_Symetry(polygon,max[0], nbTest, nbIteration - 1, r, area, values, eng)
 
 # ===============================================================================
 #                       Mainloop avec inspiration circulaire

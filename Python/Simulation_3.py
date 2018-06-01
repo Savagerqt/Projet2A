@@ -32,12 +32,7 @@ resultat.write("Methode iterative symétrique souple pour 100 itérations maximu
 values = []
 mainloopContraction(S, 8, 50, .1, 2.5, values, eng)
 S.plotPY('r')
-resultat.write("Polygone de sortie d'algorithme SOUPLE : \n " + S.__str__() + "\n")
-resultat.write("Aire Finale : " + str(S.area()) + "\n")
-resultat.write("Symetrie Finale : " + str(S.degSymetrie(1000)) + "\n")
-resultat.write("Nombre d'iterations : " + str(len(values)) + "\n")
-resultat.write("Valeurs après chaque itération : " + str(values) + "\n\n")
-resultat.write("Valeurs après chaque itération : " + str(values) + "\n\n")
+
 
 
 resultat.close()

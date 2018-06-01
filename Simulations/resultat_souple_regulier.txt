@@ -1,8 +1,0 @@
-*********************** ALGO SOUPLE ****************************
-r = 0.1, NBTEST = 8
-Polygone d'entree d'algorithme SOUPLE : 
- class Polygon : [ (0.000000,-1.000000),(0.000000,1.000000),(0.774514,0.973421),(1.081063,1.220815),(1.548778,-0.635181) ]
-Aire Initiale : 2.5037619099591675
-Symetrie Initiale : -1074.8491527766769
-Methode iterative symétrique souple pour 100 itérations maximum 
-
